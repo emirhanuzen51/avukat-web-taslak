@@ -38,7 +38,7 @@ export function Brand({ light = false }: { light?: boolean }) {
 }
 
 /* ---------------- Tema Değiştirici ---------------- */
-export function ThemeToggle() {
+export function ThemeToggle({ light = false }: { light?: boolean }) {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,11 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={dark ? "Açık temaya geç" : "Koyu temaya geç"}
-      className="relative grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/80 text-fg transition-all duration-200 hover:border-accent hover:text-accent"
+      className={`relative grid h-9 w-9 place-items-center rounded-full border transition-all duration-200 ${
+        light
+          ? "border-white/20 bg-white/10 text-white hover:border-accent hover:text-accent"
+          : "border-card-border bg-card/80 text-fg hover:border-accent hover:text-accent"
+      }`}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -125,10 +129,13 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const isHome = pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 80);
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -136,6 +143,8 @@ export function Header() {
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  const light = isHome && !scrolled;
 
   return (
     <>
@@ -148,11 +157,17 @@ export function Header() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="Ana sayfa">
-            <Brand />
+            <Brand light={light} />
           </Link>
 
           {/* Masaüstü Navigasyon */}
-          <nav className="hidden items-center gap-1 rounded-full border border-card-border bg-card/80 p-1.5 backdrop-blur-md lg:flex">
+          <nav
+            className={`hidden items-center gap-1 rounded-full border p-1.5 backdrop-blur-md lg:flex transition-colors ${
+              light
+                ? "border-white/15 bg-white/10 text-white"
+                : "border-card-border bg-card/80 text-fg"
+            }`}
+          >
             {nav.map((item) => {
               const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
               return (
@@ -160,13 +175,23 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={`relative rounded-full px-4 py-2 text-xs font-semibold tracking-wider transition-colors duration-200 ${
-                    active ? "text-fg" : "text-fg-muted hover:text-fg"
+                    light
+                      ? active
+                        ? "text-white font-bold"
+                        : "text-white/75 hover:text-white"
+                      : active
+                      ? "text-fg font-bold"
+                      : "text-fg-muted hover:text-fg"
                   }`}
                 >
                   {active && (
                     <motion.div
                       layoutId="active-pill"
-                      className="absolute inset-0 rounded-full bg-accent-subtle border border-accent/20"
+                      className={`absolute inset-0 rounded-full border ${
+                        light
+                          ? "bg-white/20 border-white/30"
+                          : "bg-accent-subtle border-accent/25"
+                      }`}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -180,20 +205,28 @@ export function Header() {
           <div className="flex items-center gap-2 sm:gap-3">
             <a
               href={lawyer.phoneHref}
-              className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white"
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold tracking-wider transition-all duration-300 ${
+                light
+                  ? "border-accent/80 bg-accent text-white hover:bg-bronze-light shadow-md"
+                  : "border-accent/40 bg-accent-subtle text-accent hover:bg-accent hover:text-white"
+              }`}
             >
               <Phone className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{lawyer.phoneDisplay}</span>
               <span className="sm:hidden text-[11px]">Ara</span>
             </a>
 
-            <ThemeToggle />
+            <ThemeToggle light={light} />
 
             {/* Mobil Menü Açma Butonu */}
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Menüyü aç"
-              className="grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/80 text-fg lg:hidden hover:border-accent"
+              className={`grid h-9 w-9 place-items-center rounded-full border lg:hidden ${
+                light
+                  ? "border-white/20 bg-white/10 text-white"
+                  : "border-card-border bg-card/80 text-fg"
+              }`}
             >
               <Menu className="h-4 w-4" />
             </button>
@@ -269,7 +302,7 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* Mobil Cihazlar İçin Sabit Alt Hızlı Eylem Çubuğu (Bottom Action Dock) */}
+      {/* Mobil Cihazlar İçin Sabit Alt Hızlı Eylem Çubuğu */}
       <div className="fixed bottom-3 inset-x-3 z-40 block sm:hidden">
         <div className="flex items-center justify-between rounded-full border border-card-border bg-card/95 p-1.5 shadow-2xl backdrop-blur-xl">
           <a
