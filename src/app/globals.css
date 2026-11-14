@@ -2,46 +2,59 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Sabit marka renkleri */
+/* Sabit marka renkleri ve modern tipografi */
 @theme {
-  --color-midnight: #101c2c;
-  --color-midnight-2: #0b1420;
-  --color-ivory: #f5f2ea;
-  --color-champagne: #b69a69;
-  --color-champagne-soft: #cfb98f;
-  --color-charcoal: #30343a;
-
-  --font-serif: var(--font-cormorant), "Times New Roman", Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --color-obsidian: #090d14;
+  --color-obsidian-2: #0f1521;
+  --color-slate-dark: #162032;
+  
+  --color-bronze: #c59b27;
+  --color-bronze-light: #dfb747;
+  --color-bronze-muted: #8c6d1d;
+  
+  --color-alabaster: #f8fafc;
+  --color-alabaster-2: #f1f5f9;
+  
+  --font-serif: var(--font-playfair), "Georgia", serif;
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
 }
 
-/* Temaya göre değişen yüzeyler */
+/* Dinamik tema yüzeyleri */
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg-2: var(--bg-2);
+  --color-bg-alt: var(--bg-alt);
   --color-card: var(--card);
+  --color-card-border: var(--card-border);
   --color-fg: var(--fg);
-  --color-sub: var(--sub);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-subtle: var(--accent-subtle);
   --color-line: var(--line);
 }
 
 :root {
-  --bg: #f5f2ea;
-  --bg-2: #ede7da;
-  --card: #fbf9f4;
-  --fg: #101c2c;
-  --sub: #5d6470;
-  --line: rgba(16, 28, 44, 0.12);
+  --bg: #faf9f6;
+  --bg-alt: #f3f1ec;
+  --card: #ffffff;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --fg: #0f172a;
+  --fg-muted: #64748b;
+  --accent: #b48523;
+  --accent-subtle: rgba(180, 133, 35, 0.12);
+  --line: rgba(15, 23, 42, 0.09);
   color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --bg: #0e1826;
-  --bg-2: #122031;
-  --card: #15243a;
-  --fg: #f5f2ea;
-  --sub: #a7aeb8;
-  --line: rgba(245, 242, 234, 0.12);
+  --bg: #090d14;
+  --bg-alt: #0e1420;
+  --card: #121a28;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --fg: #f8fafc;
+  --fg-muted: #94a3b8;
+  --accent: #dfb747;
+  --accent-subtle: rgba(223, 183, 71, 0.14);
+  --line: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
 
@@ -53,63 +66,91 @@ html.lenis, html.lenis body {
   height: auto;
 }
 
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
 body {
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 ::selection {
-  background: var(--color-champagne);
-  color: #101c2c;
+  background: var(--accent);
+  color: #090d14;
 }
 
-/* İnce altın alt çizgi (link hover) */
-.gold-link {
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+/* Lüks Altın & Bronz Vurgu Çizgisi */
+.bronze-link {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.gold-link:hover {
-  background-size: 100% 1px;
+.bronze-link:hover {
+  background-size: 100% 1.5px;
 }
 
-/* Editoryal hukuk metni */
-.prose-legal p {
-  margin-top: 1.15em;
+/* Glassmorphism ve Modern Kartlar */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+}
+
+[data-theme="dark"] .glass-panel {
+  background: rgba(18, 26, 40, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Hukuk Makalesi / Metin Biçimlendirme */
+.prose-executive {
+  color: var(--fg-muted);
   line-height: 1.85;
-  color: var(--sub);
 }
-.prose-legal h2 {
-  margin-top: 2.2em;
+.prose-executive p {
+  margin-top: 1.25rem;
+  font-size: 1.0625rem;
+}
+.prose-executive h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
   font-family: var(--font-serif);
-  font-size: 1.9rem;
-  line-height: 1.15;
+  font-size: 2rem;
+  line-height: 1.2;
   color: var(--fg);
 }
-.prose-legal ul {
-  margin-top: 1em;
-  display: grid;
-  gap: 0.5em;
+.prose-executive h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--fg);
 }
-.prose-legal li {
+.prose-executive ul {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+}
+.prose-executive li {
   position: relative;
-  padding-left: 1.4em;
-  color: var(--sub);
+  padding-left: 1.75rem;
   line-height: 1.7;
 }
-.prose-legal li::before {
+.prose-executive li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.75em;
-  height: 1px;
-  width: 0.8em;
-  background: var(--color-champagne);
+  left: 0.25rem;
+  top: 0.65rem;
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

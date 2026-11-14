@@ -1,43 +1,39 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { fullName, lawyer } from "@/lib/lawyer";
 import { areas } from "@/lib/areas";
 import { Footer, Header } from "@/components/chrome";
 import { SmoothScroll } from "@/components/motion";
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  variable: "--font-playfair",
   display: "swap",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(lawyer.site),
   title: {
-    default: `Av. ${fullName} | ${lawyer.city}`,
+    default: `Av. ${fullName} | ${lawyer.city} Hukuk & Danışmanlık`,
     template: `%s | Av. ${fullName}`,
   },
-  description: `Av. ${fullName} — ${lawyer.bar}. Mesleki bilgiler, çalışma alanları ve iletişim bilgileri.`,
+  description: `Av. ${fullName} — ${lawyer.bar}. Mesleki bilgiler, hukuki çalışma alanları ve iletişim detayları.`,
   openGraph: {
     locale: "tr_TR",
     type: "website",
-    siteName: `Av. ${fullName}`,
+    siteName: `Av. ${fullName} Hukuk Bürosu`,
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#101c2c",
-  width: "device-width",
-  initialScale: 1,
+  themeColor: "#090d14",
 };
 
 const jsonLd = {
@@ -55,7 +51,7 @@ const jsonLd = {
   knowsAbout: areas.map((a) => a.title),
 };
 
-const themeScript = `try{var t=localStorage.getItem('av-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch(e){}`;
+const themeScript = `try{var t=localStorage.getItem('avukat-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -67,7 +63,7 @@ export default function RootLayout({
       lang="tr"
       data-theme="light"
       suppressHydrationWarning
-      className={`${cormorant.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${jakarta.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

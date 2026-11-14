@@ -1,13 +1,11 @@
 // Hukuki Çalışma Alanları Kataloğu
 // TBB Reklam Yasağı m.7: Yalnızca fiilen yürütülen alanların bilgilendirme amaçlı listesidir.
 
-export type AreaIcon = "medeni" | "ticaret" | "is" | "ceza" | "gayrimenkul" | "idare";
 export type AreaCategory = "Özel Hukuk" | "Kamu Hukuku" | "Ceza & Yargılama" | "Şirket & Ticaret";
 
 export type Area = {
   slug: string;
   title: string;
-  icon: AreaIcon;
   category: AreaCategory;
   lead: string;
   description: string;
@@ -21,7 +19,6 @@ export const areas: Area[] = [
   {
     slug: "ceza-hukuku",
     title: "Ceza Hukuku",
-    icon: "ceza",
     category: "Ceza & Yargılama",
     lead: "Soruşturma ve kovuşturma evrelerinde şüpheli, sanık müdafiliği ve mağdur / müşteki vekilliği.",
     description: "Ceza muhakemesi sürecinde kişi özgürlüğü ve güvenlik hakkının korunması, adil yargılanma ilkesi çerçevesinde delillerin hukuka uygunluğunun denetimi ve kanun yolları başvuruları titizlikle yürütülür.",
@@ -44,7 +41,6 @@ export const areas: Area[] = [
   {
     slug: "gayrimenkul-ve-kira-hukuku",
     title: "Gayrimenkul ve Kira Hukuku",
-    icon: "gayrimenkul",
     category: "Özel Hukuk",
     lead: "Taşınmaz mülkiyeti, kira sözleşmeleri, tahliye davaları ve tapu iptal-tescil uyuşmazlıkları.",
     description: "Taşınmazlara ilişkin her türlü alım-satım, ayni hak tesisi, kira ilişkileri ve kat mülkiyeti uyuşmazlıklarında güncel mevzuat ve Yargıtay içtihatları doğrultusunda kapsamlı hukuki destek sunulmaktadır.",
@@ -67,7 +63,6 @@ export const areas: Area[] = [
   {
     slug: "is-ve-sosyal-guvenlik-hukuku",
     title: "İş ve Sosyal Güvenlik Hukuku",
-    icon: "is",
     category: "Özel Hukuk",
     lead: "İşçi ve işveren hakları, kıdem-ihbar tazminatları, işe iade ve iş kazası tazminat davaları.",
     description: "İşçi ve işveren tarafları arasındaki bireysel veya toplu iş sözleşmelerinin tanzimi, iş sözleşmesinin feshinden doğan uyuşmazlıkların arabuluculuk ve dava aşamalarında takibi gerçekleştirilir.",
@@ -90,7 +85,6 @@ export const areas: Area[] = [
   {
     slug: "ticaret-ve-sirketler-hukuku",
     title: "Ticaret ve Şirketler Hukuku",
-    icon: "ticaret",
     category: "Şirket & Ticaret",
     lead: "Şirket kuruluşları, ticari sözleşmeler, alacak tahsili ve şirket ortakları arası uyuşmazlıklar.",
     description: "Ticari işletmelerin ve sermaye şirketlerinin kurumsal işleyişinde karşılaştıkları sözleşme risklerinin önlenmesi, alacak yönetimi ve şirketler arası uyuşmazlıkların çözümü amaçlanır.",
@@ -113,7 +107,6 @@ export const areas: Area[] = [
   {
     slug: "aile-ve-miras-hukuku",
     title: "Aile ve Miras Hukuku",
-    icon: "medeni",
     category: "Özel Hukuk",
     lead: "Anlaşmalı ve çekişmeli boşanma, nafaka, velayet, mal paylaşımı ve veraset davaları.",
     description: "Aile kurumunun hassasiyeti ve tarafların özel hayatının gizliliği gözetilerek; evlilik birliğinin sonlanması veya miras intikali süreçlerinde titiz, dengeli ve hakkaniyetli çözümler üretilir.",
@@ -136,7 +129,6 @@ export const areas: Area[] = [
   {
     slug: "idare-ve-vergi-hukuku",
     title: "İdare ve Vergi Hukuku",
-    icon: "idare",
     category: "Kamu Hukuku",
     lead: "İdari işlemlerin iptali, tam yargı (tazminat) davaları ve vergi cezalarına karşı itirazlar.",
     description: "Kamu kurumlarının hukuka aykırı işlem ve eylemleri sonucu hak kaybına uğrayan gerçek ve tüzel kişilerin hak arama yolları ve idari yargı denetimi yürütülmektedir.",

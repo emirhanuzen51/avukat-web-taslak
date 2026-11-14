@@ -1,185 +1,261 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { ArrowUpRight, Download, Menu, Moon, Sun, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowUpRight,
+  Clock,
+  Download,
+  Mail,
+  MapPin,
+  Menu,
+  Moon,
+  Phone,
+  Shield,
+  Sun,
+  X,
+} from "lucide-react";
 import { fullName, lawyer, nav, slugName } from "@/lib/lawyer";
 import { Monogram } from "./icons";
-import { easeCustom } from "./motion";
 
-/* ---------------- Logo (monogram + isim) ---------------- */
-export function Brand({ light }: { light: boolean }) {
+/* ---------------- Logo & Marka ---------------- */
+export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <span className="flex items-center gap-3">
-      <Monogram className="h-11 w-11 shrink-0" light={light} />
-      <span className="leading-none">
-        <span className={`block font-serif text-[1.35rem] font-medium tracking-[0.01em] ${light ? "text-ivory" : "text-fg"}`}>
+    <div className="flex items-center gap-3.5 group">
+      <Monogram className="h-10 w-10 shrink-0 transition-transform duration-300 group-hover:scale-105" light={light} />
+      <div className="leading-tight">
+        <span className={`block font-serif text-lg font-medium tracking-tight ${light ? "text-white" : "text-fg"}`}>
           Av. {fullName}
         </span>
-        <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.28em] text-champagne">
-          {lawyer.tagline}
+        <span className="block text-[10px] uppercase font-semibold tracking-[0.2em] text-accent">
+          {lawyer.bar}
         </span>
-      </span>
-    </span>
+      </div>
+    </div>
   );
 }
 
-/* ---------------- Tema ---------------- */
-export function ThemeToggle({ light }: { light: boolean }) {
+/* ---------------- Tema Değiştirici ---------------- */
+export function ThemeToggle() {
   const [dark, setDark] = useState(false);
-  useEffect(() => setDark(document.documentElement.dataset.theme === "dark"), []);
+
+  useEffect(() => {
+    setDark(document.documentElement.dataset.theme === "dark");
+  }, []);
+
   const toggle = () => {
     const next = !dark;
     setDark(next);
     document.documentElement.dataset.theme = next ? "dark" : "light";
     try {
-      localStorage.setItem("av-theme", next ? "dark" : "light");
+      localStorage.setItem("avukat-theme", next ? "dark" : "light");
     } catch {}
   };
+
   return (
     <button
       onClick={toggle}
       aria-label={dark ? "Açık temaya geç" : "Koyu temaya geç"}
-      className={`grid h-10 w-10 place-items-center rounded-full border transition ${
-        light ? "border-ivory/20 text-ivory hover:border-champagne" : "border-line text-fg hover:border-champagne"
-      }`}
+      className="relative grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/70 text-fg transition-all duration-300 hover:border-accent hover:text-accent"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
-          key={dark ? "d" : "l"}
-          initial={{ rotate: -90, opacity: 0 }}
-          animate={{ rotate: 0, opacity: 1 }}
-          exit={{ rotate: 90, opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          key={dark ? "dark" : "light"}
+          initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+          transition={{ duration: 0.2 }}
         >
-          {dark ? <Sun className="h-4 w-4" strokeWidth={1.5} /> : <Moon className="h-4 w-4" strokeWidth={1.5} />}
+          {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </motion.span>
       </AnimatePresence>
     </button>
   );
 }
 
-/* ---------------- Üst menü ---------------- */
+/* ---------------- vCard Kartvizit Butonu ---------------- */
+export function VCardButton({ variant = "default" }: { variant?: "default" | "outline" | "white" }) {
+  const download = () => {
+    const vcard = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      `N:${lawyer.lastName};${lawyer.firstName};;Av.;`,
+      `FN:Av. ${fullName}`,
+      `TITLE:${lawyer.title} · ${lawyer.bar}`,
+      `TEL;TYPE=WORK,VOICE:${lawyer.phoneHref.replace("tel:", "")}`,
+      `TEL;TYPE=CELL,VOICE:${lawyer.mobileHref.replace("tel:", "")}`,
+      `EMAIL;TYPE=WORK:${lawyer.email}`,
+      `ADR;TYPE=WORK:;;${lawyer.address};${lawyer.city};;;Türkiye`,
+      `URL:${lawyer.site}`,
+      "END:VCARD",
+    ].join("\r\n");
+
+    const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `av-${slugName}.vcf`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  let styles = "border border-line bg-card/80 text-fg hover:border-accent hover:text-accent";
+  if (variant === "outline") {
+    styles = "border border-accent text-accent hover:bg-accent hover:text-white";
+  } else if (variant === "white") {
+    styles = "border border-white/20 bg-white/10 text-white hover:bg-white hover:text-obsidian";
+  }
+
+  return (
+    <button
+      onClick={download}
+      className={`group inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] transition-all duration-300 ${styles}`}
+    >
+      <Download className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" />
+      <span>Kartviziti Kaydet</span>
+    </button>
+  );
+}
+
+/* ---------------- Üst Menü / Navbar ---------------- */
 export function Header() {
-  const path = usePathname();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const f = () => setScrolled(window.scrollY > window.innerHeight * 0.7);
-    f();
-    window.addEventListener("scroll", f, { passive: true });
-    return () => window.removeEventListener("scroll", f);
-  }, [path]);
-
-  useEffect(() => setOpen(false), [path]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-  }, [open]);
-
-  const isHome = path === "/";
-  const light = isHome ? !scrolled : false;
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-700 ${
-          scrolled ? "border-b border-line bg-bg/85 backdrop-blur-xl" : "bg-transparent"
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-card-border bg-bg/85 py-3 shadow-xs backdrop-blur-xl"
+            : "bg-transparent py-5"
         }`}
       >
-        <motion.div
-          style={{ scaleX: progress }}
-          className="absolute inset-x-0 top-0 h-[2px] origin-left bg-champagne"
-          aria-hidden="true"
-        />
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:py-5">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link href="/" aria-label="Ana sayfa">
-            <Brand light={light} />
+            <Brand />
           </Link>
-          <nav className="hidden items-center gap-9 lg:flex">
-            {nav.map((n) => {
-              const on = path === n.href || (n.href !== "/" && path.startsWith(n.href));
+
+          {/* Masaüstü Navigasyon */}
+          <nav className="hidden items-center gap-1 rounded-full border border-card-border bg-card/60 p-1.5 backdrop-blur-md lg:flex">
+            {nav.map((item) => {
+              const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
               return (
                 <Link
-                  key={n.href}
-                  href={n.href}
-                  className={`gold-link pb-1 text-[13px] tracking-[0.06em] transition-colors ${
-                    light ? "text-ivory/75 hover:text-ivory" : "text-sub hover:text-fg"
-                  } ${on ? (light ? "!text-ivory font-medium" : "!text-fg font-medium") : ""}`}
+                  key={item.href}
+                  href={item.href}
+                  className={`relative rounded-full px-4 py-2 text-xs font-medium tracking-[0.05em] transition-colors duration-200 ${
+                    active ? "text-fg" : "text-fg-muted hover:text-fg"
+                  }`}
                 >
-                  {n.label}
-                  {on && (
-                    <motion.span
-                      layoutId="nav-dot"
-                      className="ml-2 inline-block h-1 w-1 -translate-y-0.5 rounded-full bg-champagne"
+                  {active && (
+                    <motion.div
+                      layoutId="active-pill"
+                      className="absolute inset-0 rounded-full bg-accent-subtle border border-accent/20"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
+                  <span className="relative z-10">{item.label}</span>
                 </Link>
               );
             })}
           </nav>
-          <div className="flex items-center gap-2">
-            <ThemeToggle light={light} />
-            <button
-              onClick={() => setOpen(true)}
-              aria-label="Menüyü aç"
-              className={`grid h-10 w-10 place-items-center rounded-full border lg:hidden ${
-                light ? "border-ivory/20 text-ivory" : "border-line text-fg"
-              }`}
+
+          {/* Sağ Eylemler: Tema & Hızlı Arama Butonu */}
+          <div className="flex items-center gap-2.5">
+            <a
+              href={lawyer.phoneHref}
+              className="hidden items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-4 py-2 text-xs font-semibold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white sm:inline-flex"
             >
-              <Menu className="h-4 w-4" strokeWidth={1.5} />
+              <Phone className="h-3.5 w-3.5" />
+              <span>{lawyer.phoneDisplay}</span>
+            </a>
+
+            <ThemeToggle />
+
+            {/* Mobil Menü Butonu */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              aria-label="Menüyü aç"
+              className="grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/70 text-fg lg:hidden hover:border-accent"
+            >
+              <Menu className="h-4 w-4" />
             </button>
           </div>
         </div>
       </header>
 
+      {/* Mobil Çekmece Menü */}
       <AnimatePresence>
-        {open && (
+        {mobileOpen && (
           <motion.div
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[60] flex flex-col bg-midnight px-6 pb-10 pt-5 text-ivory lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex flex-col bg-bg/95 p-6 backdrop-blur-2xl lg:hidden"
           >
-            <div className="flex items-center justify-between">
-              <Brand light />
+            <div className="flex items-center justify-between border-b border-line pb-4">
+              <Brand />
               <button
-                onClick={() => setOpen(false)}
+                onClick={() => setMobileOpen(false)}
                 aria-label="Menüyü kapat"
-                className="grid h-10 w-10 place-items-center rounded-full border border-ivory/20"
+                className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg"
               >
-                <X className="h-4 w-4" />
+                <X className="h-5 w-5" />
               </button>
             </div>
-            <nav className="mt-14 grid">
-              {[{ href: "/", label: "Ana Sayfa" }, ...nav].map((n, i) => (
-                <motion.div
-                  key={n.href}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.06, duration: 0.5, ease: easeCustom }}
-                >
+
+            <nav className="mt-8 flex flex-col gap-2">
+              <Link
+                href="/"
+                className={`rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+                  pathname === "/" ? "bg-accent-subtle text-accent font-semibold" : "text-fg hover:bg-card"
+                }`}
+              >
+                Ana Sayfa
+              </Link>
+              {nav.map((item) => {
+                const active = pathname.startsWith(item.href);
+                return (
                   <Link
-                    href={n.href}
-                    className="flex items-baseline gap-5 border-b border-ivory/10 py-4 font-serif text-3xl font-light"
+                    key={item.href}
+                    href={item.href}
+                    className={`rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+                      active ? "bg-accent-subtle text-accent font-semibold" : "text-fg hover:bg-card"
+                    }`}
                   >
-                    <span className="font-sans text-xs text-champagne">0{i + 1}</span>
-                    {n.label}
+                    {item.label}
                   </Link>
-                </motion.div>
-              ))}
+                );
+              })}
             </nav>
-            <div className="mt-auto text-sm text-ivory/60">
-              <a href={lawyer.phoneHref} className="block py-1.5 font-serif text-lg text-ivory">
+
+            <div className="mt-auto border-t border-line pt-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-fg-muted">Doğrudan İletişim</p>
+              <a href={lawyer.phoneHref} className="mt-2 block font-serif text-xl font-medium text-fg">
                 {lawyer.phoneDisplay}
               </a>
-              <p className="py-1 text-xs text-ivory/50">{lawyer.address}</p>
+              <a href={`mailto:${lawyer.email}`} className="mt-1 block text-sm text-fg-muted">
+                {lawyer.email}
+              </a>
+              <div className="mt-5">
+                <VCardButton />
+              </div>
             </div>
           </motion.div>
         )}
@@ -188,127 +264,98 @@ export function Header() {
   );
 }
 
-/* ---------------- İmza (dekoratif SVG çizimi) ---------------- */
-export function Signature({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 300 90" fill="none" className={className} aria-label={`${fullName} — dekoratif imza`} role="img">
-      <motion.path
-        d="M14 62 C22 30 40 14 46 22 C52 30 34 64 30 70 C44 50 58 34 66 40 C72 45 62 62 70 62 C80 62 86 44 94 44 C100 44 96 60 104 60 C114 60 120 36 128 22 C132 44 130 58 138 60 C148 62 156 40 166 40 C174 40 170 58 178 58 C190 58 196 28 206 28 C214 28 206 56 216 58 C228 60 240 40 252 36 C262 33 270 40 284 30"
-        stroke="#b69a69"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2.8, ease: [0.45, 0, 0.25, 1] }}
-      />
-      <motion.path
-        d="M24 78 C90 72 180 74 276 70"
-        stroke="#b69a69"
-        strokeWidth="1"
-        strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        whileInView={{ pathLength: 1, opacity: 0.7 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, delay: 2.5, ease: "easeOut" }}
-      />
-    </svg>
-  );
-}
-
-/* ---------------- vCard (dijital kartvizit) ---------------- */
-export function VCardButton({ light = false }: { light?: boolean }) {
-  const download = () => {
-    const v = [
-      "BEGIN:VCARD",
-      "VERSION:3.0",
-      `N:${lawyer.lastName};${lawyer.firstName};;Av.;`,
-      `FN:Av. ${fullName}`,
-      `TITLE:${lawyer.title} – ${lawyer.bar}`,
-      `TEL;TYPE=WORK,VOICE:${lawyer.phoneHref.replace("tel:", "")}`,
-      `EMAIL;TYPE=WORK:${lawyer.email}`,
-      `ADR;TYPE=WORK:;;${lawyer.address};${lawyer.city};;;Türkiye`,
-      `URL:${lawyer.site}`,
-      "END:VCARD",
-    ].join("\r\n");
-    const url = URL.createObjectURL(new Blob([v], { type: "text/vcard;charset=utf-8" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `av-${slugName}.vcf`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
-  return (
-    <button
-      onClick={download}
-      className={`group inline-flex items-center gap-3 border px-6 py-3.5 text-[13px] tracking-[0.08em] transition-colors ${
-        light
-          ? "border-ivory/25 text-ivory hover:border-champagne hover:bg-champagne hover:text-midnight"
-          : "border-fg/25 text-fg hover:border-champagne hover:bg-champagne hover:text-midnight"
-      }`}
-    >
-      <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" strokeWidth={1.5} /> Kartviziti indir (vCard)
-    </button>
-  );
-}
-
-/* ---------------- Alt bilgi ---------------- */
+/* ---------------- Alt Bilgi / Footer ---------------- */
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-midnight-2 px-5 pb-10 pt-24 text-ivory sm:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-14 border-b border-ivory/10 pb-16 lg:grid-cols-12">
+    <footer className="relative overflow-hidden border-t border-card-border bg-obsidian text-slate-300 pt-20 pb-12">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-12 pb-16 border-b border-white/10">
+          {/* Sol Kolon: Kurumsal Kimlik & Baro Bilgisi */}
           <div className="lg:col-span-5">
-            <Monogram className="h-16 w-16" light />
-            <p className="mt-8 font-serif text-3xl font-light leading-snug">
-              Av. {fullName}
-              <span className="mt-1 block text-base italic text-champagne-soft">
+            <Brand light />
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-slate-400">
+              {lawyer.shortBio}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                <Shield className="h-3.5 w-3.5 text-accent" />
                 {lawyer.bar} · Sicil No: {lawyer.barNo}
               </span>
-            </p>
-            <Signature className="mt-8 h-20 w-64" />
+              <VCardButton variant="white" />
+            </div>
           </div>
-          <div className="text-sm lg:col-span-3">
-            <p className="mb-5 text-[11px] uppercase tracking-[0.3em] text-champagne">Sayfalar</p>
-            <ul className="grid">
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <Link href={n.href} className="gold-link inline-block py-2 text-ivory/75 hover:text-ivory">
-                    {n.label}
+
+          {/* Orta Kolon: Sayfalar */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              Hızlı Erişim
+            </h4>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              <li>
+                <Link href="/" className="hover:text-white transition-colors">
+                  Ana Sayfa
+                </Link>
+              </li>
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="hover:text-white transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="text-sm lg:col-span-4">
-            <p className="mb-5 text-[11px] uppercase tracking-[0.3em] text-champagne">İletişim</p>
-            <p className="leading-relaxed text-ivory/75">{lawyer.address}</p>
-            <a href={lawyer.phoneHref} className="gold-link mt-4 inline-block py-1 text-ivory font-serif text-xl">
-              {lawyer.phoneDisplay}
-            </a>
-            <br />
-            <a href={`mailto:${lawyer.email}`} className="gold-link inline-block py-1 text-ivory">
-              {lawyer.email}
-            </a>
-            <p className="mt-1 text-ivory/50">KEP: {lawyer.kep}</p>
-            <Link href="/iletisim" className="mt-6 inline-flex items-center gap-2 text-champagne-soft hover:text-ivory">
-              Ulaşım bilgileri <ArrowUpRight className="h-4 w-4" />
-            </Link>
+
+          {/* Sağ Kolon: İletişim Bilgileri */}
+          <div className="lg:col-span-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              İletişim & Konum
+            </h4>
+            <div className="mt-4 space-y-3 text-sm text-slate-400">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="h-4 w-4 shrink-0 text-accent mt-0.5" />
+                <span>{lawyer.address}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 shrink-0 text-accent" />
+                <a href={lawyer.phoneHref} className="hover:text-white transition-colors">
+                  {lawyer.phoneDisplay}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 shrink-0 text-accent" />
+                <a href={`mailto:${lawyer.email}`} className="hover:text-white transition-colors">
+                  {lawyer.email}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Clock className="h-4 w-4 shrink-0 text-accent" />
+                <span>{lawyer.hours}</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 pt-8 text-xs leading-relaxed text-ivory/45 lg:flex-row lg:justify-between">
-          <p className="max-w-2xl">
-            Bu internet sitesi, Avukatlık Kanunu ve Türkiye Barolar Birliği Reklam Yasağı Yönetmeliği çerçevesinde yalnızca bilgilendirme amacıyla
-            hazırlanmıştır. Sitedeki içerikler hukuki danışmanlık niteliği taşımaz.
+
+        {/* Yasal Uyarı & TBB Bildirimi */}
+        <div className="mt-8 flex flex-col gap-4 text-xs text-slate-500 lg:flex-row lg:items-center lg:justify-between">
+          <p className="max-w-2xl leading-relaxed">
+            Bu internet sitesinde yer alan tüm bilgiler, Türkiye Barolar Birliği Meslek Kuralları ve Reklam Yasağı Yönetmeliği&apos;ne uygun olarak yalnızca bilgilendirme amacıyla hazırlanmıştır. Hukuki danışmanlık veya vekalet ilişkisi teşkil etmez.
           </p>
-          <p className="flex gap-5">
-            <Link href="/kvkk" className="hover:text-ivory">KVKK</Link>
-            <Link href="/cerez-politikasi" className="hover:text-ivory">Çerez Politikası</Link>
+          <div className="flex items-center gap-4 shrink-0">
+            <Link href="/kvkk" className="hover:text-slate-300 transition-colors">
+              KVKK Aydınlatma
+            </Link>
+            <span>·</span>
+            <Link href="/cerez-politikasi" className="hover:text-slate-300 transition-colors">
+              Çerez Politikası
+            </Link>
+            <span>·</span>
             <span>© {new Date().getFullYear()}</span>
-          </p>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+
+

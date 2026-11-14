@@ -1,273 +1,718 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, MapPin } from "lucide-react";
-import { lawyer } from "@/lib/lawyer";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Compass,
+  FileCheck2,
+  FileSearch,
+  FileText,
+  HelpCircle,
+  Mail,
+  MapPin,
+  Phone,
+  Scale,
+  Send,
+  Shield,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import { fullName, lawyer } from "@/lib/lawyer";
 import { areas } from "@/lib/areas";
 import { articles } from "@/lib/articles";
-import { LegalIcon } from "./icons";
-import { VCardButton } from "./chrome";
-import { ease, Kicker, Lines, Reveal } from "./motion";
+import { FadeIn, SectionBadge, SpotlightCard } from "./motion";
 
-/* ============ 01 · Mesleki kimlik ============ */
-export function Identity() {
-  const facts = [
-    { k: "Kayıtlı olduğu baro", v: lawyer.bar },
-    { k: "Baro sicil no", v: lawyer.barNo },
-    { k: "Mesleğe başlangıç", v: lawyer.startYear },
-    { k: "Yabancı dil", v: lawyer.languages.join(", ") },
+/* ================= 1. BARO VE YETKİ BANDI ================= */
+export function BarAccreditationBar() {
+  const credentials = [
+    { label: "Kayıtlı Baro", val: lawyer.bar },
+    { label: "Baro Sicil No", val: lawyer.barNo },
+    { label: "Yetki Çevresi", val: `${lawyer.city} & Tüm Türkiye` },
+    { label: "Meslek İlkesi", val: "TBB Reklam Yasağı m.7 Uyumlu" },
   ];
-  return (
-    <section className="px-5 py-28 sm:px-8 lg:py-40">
-      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <Kicker n="01">Mesleki kimlik</Kicker>
-        </div>
-        <div className="lg:col-span-8">
-          <Lines
-            className="font-serif text-[clamp(2rem,4.2vw,3.6rem)] font-light leading-[1.12] tracking-[-0.005em]"
-            lines={[<>Her hukuki mesele, kendine özgü</>, <>koşullarıyla <em className="text-champagne">dikkatle</em> ele alınmayı</>, <>hak eder.</>]}
-          />
-          <Reveal delay={0.2}>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-sub">
-              Mesleki çalışmalarımı; müvekkillerimi açık ve anlaşılır biçimde bilgilendirmeyi, dosyaları titizlikle hazırlamayı ve süreci düzenli takip etmeyi esas alarak yürütüyorum.
-            </p>
-            <Link href="/hakkimda" className="gold-link mt-8 inline-flex items-center gap-2 pb-1 text-sm tracking-[0.06em] text-fg">
-              Hakkımda <ArrowUpRight className="h-4 w-4 text-champagne" strokeWidth={1.5} />
-            </Link>
-          </Reveal>
-          <dl className="mt-16 grid grid-cols-2 border-t border-line md:grid-cols-4">
-            {facts.map((f, i) => (
-              <Reveal key={f.k} delay={i * 0.08} className="border-b border-line py-6 pr-4 md:border-b-0 md:border-r md:pl-6 md:first:pl-0 md:last:border-r-0">
-                <dt className="text-[11px] uppercase tracking-[0.22em] text-sub">{f.k}</dt>
-                <dd className="mt-3 font-serif text-2xl">{f.v}</dd>
-              </Reveal>
-            ))}
-          </dl>
-        </div>
-      </div>
-    </section>
-  );
-}
 
-/* ============ 02 · Çalışma alanları ============ */
-export function AreasGrid() {
   return (
-    <section className="bg-bg-2 px-5 py-28 sm:px-8 lg:py-40">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <div>
-            <Kicker n="02">Çalışma alanları</Kicker>
-            <Lines className="font-serif text-[clamp(2.4rem,5vw,4.4rem)] font-light leading-[1.02]" lines={[<>Hukuki çalışma</>, <em key="e" className="text-champagne">alanları</em>]} />
-          </div>
-          <Reveal delay={0.2}>
-            <p className="max-w-sm text-sub">Mesleki faaliyet gösterilen başlıca alanlar, bilgilendirme amacıyla aşağıda yer almaktadır.</p>
-          </Reveal>
-        </div>
-        <div className="grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
-          {areas.map((a, i) => (
-            <Reveal key={a.slug} delay={(i % 3) * 0.08} className="border-b border-r border-line">
-              <Link href={`/calisma-alanlari/${a.slug}`} className="group relative flex h-full flex-col bg-bg-2 p-9 transition-colors duration-700 hover:bg-card lg:p-11">
-                <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-champagne transition-transform duration-700 group-hover:scale-x-100" />
-                <div className="flex items-start justify-between">
-                  <span className="text-champagne">
-                    <LegalIcon name={a.icon} draw className="h-14 w-14" />
-                  </span>
-                  <span className="font-serif text-sm italic text-sub">0{i + 1}</span>
-                </div>
-                <h3 className="mt-12 font-serif text-[1.9rem] leading-tight">{a.title}</h3>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-sub">{a.lead}</p>
-                <span className="mt-8 inline-flex items-center gap-2 text-[13px] tracking-[0.06em] text-fg/70 transition-colors group-hover:text-fg">
-                  Ayrıntılar <ArrowUpRight className="h-4 w-4 text-champagne transition-transform duration-500 group-hover:rotate-45" strokeWidth={1.5} />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============ 03 · Mesleki yaklaşım (belge animasyonu) ============ */
-const principles = [
-  { icon: "dinle" as const, t: "Dinlemek", d: "Meseleyi tüm yönleriyle anlamak için önce dinler, gerekli bilgi ve belgeleri birlikte belirleriz." },
-  { icon: "belge" as const, t: "İncelemek", d: "Belgeler, mevzuat ve güncel içtihatlar ışığında dosya ayrıntılı biçimde incelenir." },
-  { icon: "terazi" as const, t: "Değerlendirmek", d: "Hukuki seçenekler, olası riskleriyle birlikte açık ve anlaşılır bir dille paylaşılır." },
-  { icon: "takvim" as const, t: "Takip etmek", d: "Süreç boyunca gelişmeler düzenli olarak bildirilir; süreler özenle takip edilir." },
-];
-
-function DocumentAnim() {
-  const lines = [70, 92, 86, 94, 60, 88, 90, 72, 84, 50];
-  return (
-    <svg viewBox="0 0 320 400" className="w-full max-w-[380px]" aria-hidden="true">
-      <motion.g initial={{ opacity: 0, y: 30, rotate: -2 }} whileInView={{ opacity: 1, y: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease }} style={{ originX: "50%", originY: "50%" }}>
-        <rect x="34" y="20" width="252" height="350" fill="#f5f2ea" opacity="0.06" transform="translate(14 14)" />
-        <path d="M30 14 H246 L290 58 V386 H30 Z" fill="#f5f2ea" />
-        <path d="M246 14 V58 H290" fill="#e7e0d0" />
-        <motion.line x1="58" y1="70" x2="190" y2="70" stroke="#101c2c" strokeWidth="5" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ delay: 0.6, duration: 0.8 }} />
-        <motion.line x1="58" y1="86" x2="140" y2="86" stroke="#b69a69" strokeWidth="2" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ delay: 1, duration: 0.6 }} />
-        {lines.map((w, i) => (
-          <motion.line
-            key={i}
-            x1="58"
-            y1={118 + i * 20}
-            x2={58 + (w / 100) * 204}
-            y2={118 + i * 20}
-            stroke="#101c2c"
-            strokeOpacity="0.28"
-            strokeWidth="3"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.2 + i * 0.12, duration: 0.5, ease: "easeOut" }}
-          />
-        ))}
-        <motion.g initial={{ scale: 1.6, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ delay: 2.6, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }} style={{ originX: "232px", originY: "342px" }}>
-          <circle cx="232" cy="342" r="24" fill="none" stroke="#b69a69" strokeWidth="2" />
-          <circle cx="232" cy="342" r="17" fill="none" stroke="#b69a69" strokeWidth="0.8" />
-          <path d="M232 330 V354 M224 336 H240 M222 336 L218 346 a4 4 0 0 0 8 0 Z M242 336 L238 346 a4 4 0 0 0 8 0 Z" stroke="#b69a69" strokeWidth="1.2" fill="none" />
-        </motion.g>
-        <motion.path d="M58 352 C70 336 82 336 86 346 C90 356 100 330 112 340 C120 346 130 344 150 336" stroke="#101c2c" strokeWidth="1.5" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ delay: 2.9, duration: 1.2 }} />
-      </motion.g>
-    </svg>
-  );
-}
-
-export function Approach() {
-  return (
-    <section className="relative overflow-hidden bg-midnight px-5 py-28 text-ivory sm:px-8 lg:py-40">
-      <div className="pointer-events-none absolute -right-40 top-0 h-[600px] w-[600px] rounded-full bg-champagne/10 blur-[160px]" />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-12">
-        <div className="flex justify-center lg:col-span-5">
-          <DocumentAnim />
-        </div>
-        <div className="lg:col-span-7">
-          <Kicker n="03" light>
-            Mesleki yaklaşım
-          </Kicker>
-          <Lines className="font-serif text-[clamp(2.4rem,5vw,4.4rem)] font-light leading-[1.02]" lines={[<>Özenli, şeffaf ve</>, <em key="e" className="text-champagne-soft">düzenli bir süreç.</em>]} />
-          <div className="mt-14 grid gap-px bg-ivory/10 sm:grid-cols-2">
-            {principles.map((p, i) => (
-              <Reveal key={p.t} delay={i * 0.08} className="bg-midnight p-7">
-                <span className="text-champagne">
-                  <LegalIcon name={p.icon} draw className="h-10 w-10" />
-                </span>
-                <h3 className="mt-6 font-serif text-2xl">{p.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ivory/60">{p.d}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============ Mimari parallax bandı ============ */
-export function ArchitectureBand() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["12%", "-12%"]);
-  return (
-    <section ref={ref} className="relative h-[70svh] min-h-[440px] overflow-hidden bg-bg">
-      <motion.div style={{ y: y1 }} className="absolute inset-[-12%_0] pointer-events-none">
-        <Image src="/images/sketch.jpg" alt="" fill sizes="100vw" className="object-cover opacity-70 mix-blend-multiply dark:opacity-25 dark:mix-blend-screen dark:invert" />
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg pointer-events-none" />
-      <motion.div style={{ y: y2 }} className="relative mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6 text-center">
-        <span className="h-16 w-px bg-champagne" />
-        <p className="mt-8 font-serif text-[clamp(2rem,4.6vw,3.8rem)] font-light italic leading-[1.15]">
-          “Hukuk, ayrıntılarda
-          <br />
-          anlam kazanır.”
-        </p>
-        <p className="mt-6 text-[11px] uppercase tracking-[0.4em] text-sub">{lawyer.district}, {lawyer.city} · Bağımsız hukuk pratiği</p>
-      </motion.div>
-    </section>
-  );
-}
-
-/* ============ 04 · Hukuki bilgiler önizleme ============ */
-export function InsightsPreview() {
-  return (
-    <section className="px-5 py-28 sm:px-8 lg:py-40">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-14 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <div>
-            <Kicker n="04">Hukuki bilgiler</Kicker>
-            <Lines className="font-serif text-[clamp(2.4rem,5vw,4.4rem)] font-light leading-[1.02]" lines={[<>Bilgilendirici</>, <em key="e" className="text-champagne">yazılar</em>]} />
-          </div>
-          <Link href="/hukuki-bilgiler" className="gold-link inline-flex items-center gap-2 pb-1 text-sm tracking-[0.06em]">
-            Tüm yazılar <ArrowUpRight className="h-4 w-4 text-champagne" strokeWidth={1.5} />
-          </Link>
-        </div>
-        <div className="grid gap-px bg-line md:grid-cols-3">
-          {articles.map((a, i) => (
-            <Reveal key={a.slug} delay={i * 0.08} className="bg-bg">
-              <Link href={`/hukuki-bilgiler/${a.slug}`} className="group flex h-full flex-col p-8 transition-colors duration-500 hover:bg-card">
-                <p className="flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-sub">
-                  <span className="text-champagne">{a.category}</span>
-                  <span>{a.minutes} dk</span>
-                </p>
-                <h3 className="mt-10 font-serif text-[1.75rem] leading-[1.15] transition-colors group-hover:text-champagne">{a.title}</h3>
-                <p className="mt-4 flex-1 text-[15px] leading-relaxed text-sub">{a.excerpt}</p>
-                <span className="mt-8 h-px w-10 bg-champagne transition-all duration-700 group-hover:w-full" />
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============ 05 · İletişim bandı ============ */
-export function ContactBand() {
-  return (
-    <section className="relative overflow-hidden bg-midnight px-5 py-28 text-ivory sm:px-8 lg:py-36">
-      <div className="absolute inset-0 pointer-events-none">
-        <Image src="/images/library.jpg" alt="" fill sizes="100vw" className="object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-midnight via-midnight/90 to-midnight/60" />
-      </div>
-      <div className="relative mx-auto grid max-w-7xl gap-14 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <Kicker n="05" light>
-            İletişim
-          </Kicker>
-          <Lines className="font-serif text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-[1.02]" lines={[<>Görüşme için</>, <em key="e" className="text-champagne-soft">iletişim bilgileri</em>]} />
-          <p className="mt-8 max-w-md text-ivory/60">Görüşmeler randevu ile yapılmaktadır. Aşağıdaki kanallardan ulaşabilirsiniz.</p>
-          <div className="mt-10">
-            <VCardButton light />
-          </div>
-        </div>
-        <div className="grid content-end gap-px bg-ivory/10 lg:col-span-5">
-          {[
-            { k: "Telefon", v: lawyer.phoneDisplay, href: lawyer.phoneHref },
-            { k: "E-posta", v: lawyer.email, href: `mailto:${lawyer.email}` },
-            { k: "KEP", v: lawyer.kep },
-            { k: "Çalışma saatleri", v: lawyer.hours },
-          ].map((c) => (
-            <div key={c.k} className="bg-midnight/80 p-6 backdrop-blur">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-champagne">{c.k}</p>
-              {c.href ? (
-                <a href={c.href} className="gold-link mt-2 inline-block font-serif text-2xl">{c.v}</a>
-              ) : (
-                <p className="mt-2 font-serif text-2xl">{c.v}</p>
-              )}
+    <section className="border-b border-card-border bg-bg-alt/40 py-7">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          {credentials.map((c) => (
+            <div key={c.label} className="border-l border-line pl-4">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-muted">
+                {c.label}
+              </span>
+              <p className="mt-1 font-serif text-lg font-medium text-fg">{c.val}</p>
             </div>
           ))}
-          <Link href="/iletisim" className="flex items-center justify-between bg-champagne p-6 text-midnight transition-colors hover:bg-champagne-soft">
-            <span className="flex items-center gap-3 text-sm tracking-[0.06em]">
-              <MapPin className="h-4 w-4" strokeWidth={1.5} /> Adres ve ulaşım
-            </span>
-            <ArrowUpRight className="h-5 w-5" strokeWidth={1.5} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 2. ÇALIŞMA ALANLARI (FİLTRELİ & FOTOĞRAFLI BENTO GRID) ================= */
+export function BentoPracticeAreas() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("Tümü");
+
+  const categories = ["Tümü", "Ceza & Yargılama", "Özel Hukuk", "Şirket & Ticaret", "Kamu Hukuku"];
+
+  const filteredAreas =
+    selectedCategory === "Tümü"
+      ? areas
+      : areas.filter((a) => a.category === selectedCategory);
+
+  return (
+    <section className="py-24 sm:py-32 bg-bg">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
+          <div>
+            <SectionBadge number="01">Faaliyet Alanları</SectionBadge>
+            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
+              Hukuki <span className="italic text-accent">Çalışma Konuları</span>
+            </h2>
+            <p className="mt-3 text-sm text-fg-muted max-w-xl">
+              Fiilen takip edilen dava türleri, hukuki danışmanlık ve arabuluculuk süreçleri.
+            </p>
+          </div>
+
+          {/* Filtre Sekmeleri */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider transition-all duration-300 ${
+                  selectedCategory === cat
+                    ? "bg-accent text-white shadow-xs"
+                    : "border border-card-border bg-card/80 text-fg-muted hover:border-accent hover:text-fg"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Alanlar Kartları */}
+        <motion.div layout className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence>
+            {filteredAreas.map((area, idx) => (
+              <motion.div
+                key={area.slug}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Link
+                  href={`/calisma-alanlari/${area.slug}`}
+                  className="group relative flex h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card p-7 shadow-xs transition-all duration-500 hover:-translate-y-1 hover:border-accent/60 hover:shadow-2xl"
+                >
+                  {/* Arka Plan Fotoğrafı */}
+                  <div className="absolute inset-0 -z-10 overflow-hidden">
+                    <Image
+                      src={area.image}
+                      alt={area.title}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-15 dark:opacity-25"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/90 to-card/75" />
+                  </div>
+
+                  {/* Üst Bilgi */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="rounded-full bg-accent-subtle px-3 py-1 text-[11px] font-semibold text-accent">
+                        {area.category}
+                      </span>
+                      <span className="font-mono text-xs text-fg-muted">0{idx + 1}</span>
+                    </div>
+
+                    <h3 className="mt-5 font-serif text-2xl font-normal text-fg transition-colors group-hover:text-accent">
+                      {area.title}
+                    </h3>
+
+                    <p className="mt-3 text-xs leading-relaxed text-fg-muted line-clamp-2">
+                      {area.lead}
+                    </p>
+
+                    <div className="mt-5 border-t border-line/60 pt-4">
+                      <ul className="space-y-1.5">
+                        {area.topics.slice(0, 3).map((topic) => (
+                          <li key={topic} className="flex items-center gap-2 text-xs text-fg/80">
+                            <span className="h-1.5 w-1.5 rounded-full bg-accent/70" />
+                            <span className="truncate">{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Alt Eylem */}
+                  <div className="flex items-center justify-between border-t border-line/60 pt-4 text-xs font-semibold text-accent">
+                    <span>Mevzuat ve Dava Süreci</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 3. METODOLOJİ (İNTERAKTİF ÇALIŞMA PROTOKOLÜ) ================= */
+export function ProcessTimeline() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  const steps = [
+    {
+      num: "01",
+      title: "Hukuki Teşhis ve Ön İnceleme",
+      lead: "Müvekkilin ilettiği maddi vakıalar ve evraklar ayrıntılı olarak incelenir.",
+      details:
+        "Tarafımıza aktarılan uyuşmazlığın hukuki dayanağı, tarafların sıfatları ve sunulan deliller ilk görüşmede değerlendirilir. Hak kayıplarının önüne geçebilmek adına varsa derhal itiraz ve başvuru süreleri tespit edilir.",
+      icon: FileSearch,
+    },
+    {
+      num: "02",
+      title: "Mevzuat ve Yargıtay İçtihat Taraması",
+      lead: "Kanun hükümleri ve emsal yargı kararları ışığında risk analizi yapılır.",
+      details:
+        "İlgili hukuki alana özgü güncel kanun maddeleri, Yargıtay Hukuk Genel Kurulu ve ilgili daire kararları taranarak davanın veya takibin başarı şansı, zaman maliyeti ve olası riskleri objektif olarak tespit edilir.",
+      icon: Scale,
+    },
+    {
+      num: "03",
+      title: "Stratejik Eylem ve Dava Planı",
+      lead: "Dava şartı arabuluculuk veya doğrudan dava yolları belirlenir.",
+      details:
+        "Müvekkilin en yüksek menfaatine hizmet edecek strateji kurgulanır. İhtilafın sulh veya arabuluculuk yoluyla çözümü mümkünse öncelikle bu mekanizma işletilir; aksi takdirde titizlikle hazırlanmış dava dilekçesi yetkili mahkemeye sunulur.",
+      icon: Compass,
+    },
+    {
+      num: "04",
+      title: "Şeffaf Takip ve Düzenli Raporlama",
+      lead: "Her resmi tebligat, duruşma tutanağı ve karar düzenli olarak müvekkile bildirilir.",
+      details:
+        "UYAP sistemi üzerinden dosyadaki tüm gelişmeler anlık olarak denetlenir. Duruşma sonuçları, bilirkişi raporları ve ara kararlar hakkında müvekkile anlaşılır bir dille düzenli bilgilendirme yapılır.",
+      icon: CheckCircle,
+    },
+  ];
+
+  return (
+    <section className="border-y border-card-border bg-bg-alt/50 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="max-w-2xl">
+          <SectionBadge number="02">Çalışma İlkeleri</SectionBadge>
+          <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
+            Temsilde <span className="italic text-accent">4 Aşamalı Metodoloji</span>
+          </h2>
+          <p className="mt-3 text-base text-fg-muted">
+            Her dosya, adil yargılanma ve şeffaf bilgilendirme esasıyla sistematik bir süreçle yönetilir.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-8 lg:grid-cols-12 lg:items-center">
+          {/* Sol: Adım Seçici Butonlar */}
+          <div className="lg:col-span-5 space-y-3">
+            {steps.map((s, idx) => (
+              <button
+                key={s.num}
+                onClick={() => setActiveStep(idx)}
+                className={`w-full text-left rounded-2xl p-5 border transition-all duration-300 ${
+                  activeStep === idx
+                    ? "border-accent bg-card shadow-lg"
+                    : "border-card-border bg-card/60 hover:bg-card text-fg-muted"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`font-mono text-xs font-bold rounded-lg px-2.5 py-1 ${
+                        activeStep === idx ? "bg-accent text-white" : "bg-bg-alt text-fg-muted"
+                      }`}
+                    >
+                      {s.num}
+                    </span>
+                    <h4 className="font-serif text-lg font-medium text-fg">{s.title}</h4>
+                  </div>
+                  <s.icon
+                    className={`h-5 w-5 ${
+                      activeStep === idx ? "text-accent" : "text-fg-muted/40"
+                    }`}
+                  />
+                </div>
+                <p className="mt-2 text-xs text-fg-muted pl-10">{s.lead}</p>
+              </button>
+            ))}
+          </div>
+
+          {/* Sağ: Aktif Adım Detay Paneli */}
+          <div className="lg:col-span-7">
+            <div className="relative overflow-hidden rounded-3xl border border-card-border bg-card p-8 sm:p-12 shadow-xl">
+              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <Scale className="h-40 w-40 text-accent" />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-3xl font-bold text-accent">
+                  {steps[activeStep].num}
+                </span>
+                <span className="h-4 w-px bg-line" />
+                <span className="text-xs uppercase tracking-[0.2em] text-fg-muted font-semibold">
+                  Aşama Rehberi
+                </span>
+              </div>
+
+              <h3 className="mt-6 font-serif text-3xl font-normal text-fg">
+                {steps[activeStep].title}
+              </h3>
+
+              <p className="mt-4 text-base leading-relaxed text-fg-muted">
+                {steps[activeStep].details}
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-line pt-6">
+                <div className="flex items-center gap-2 text-xs font-semibold text-accent">
+                  <FileCheck2 className="h-4 w-4" />
+                  <span>Avukatlık Kanunu & TBB Meslek Kuralları Güvencesi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 4. MİMARİ VE HUKUK FOTOĞRAF GALERİSİ ================= */
+export function ArchitecturalGallery() {
+  const images = [
+    {
+      src: "/images/library.jpg",
+      title: "Hukuk Kütüphanesi",
+      sub: "Mevzuat ve Doktrin Arşivi",
+    },
+    {
+      src: "/images/columns-shadow.jpg",
+      title: "Adalet Sütunları",
+      sub: "Hukukun Evrensel İlkeleri",
+    },
+    {
+      src: "/images/stairs.jpg",
+      title: "Adliye Mimarisi",
+      sub: "Yargılama ve Dava Süreçleri",
+    },
+    {
+      src: "/images/old-books.jpg",
+      title: "İçtihat Derlemeleri",
+      sub: "Yerleşik Yargı Kararları",
+    },
+  ];
+
+  return (
+    <section className="py-24 sm:py-32 bg-bg overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="text-center max-w-2xl mx-auto">
+          <SectionBadge number="03">Kurumsal Atmosfer</SectionBadge>
+          <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
+            Hukukun <span className="italic text-accent">Ağırlığı ve Ciddiyeti</span>
+          </h2>
+          <p className="mt-3 text-sm text-fg-muted">
+            Çalışmalarımızda klasik hukuk prensiplerinin vakarı ile çağdaş hukuk tekniğini bir arada uyguluyoruz.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {images.map((item, idx) => (
+            <FadeIn key={item.title} delay={idx * 0.1}>
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-card-border bg-card shadow-md">
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                  <p className="font-serif text-lg font-normal">{item.title}</p>
+                  <p className="text-[11px] text-slate-300 tracking-wider mt-0.5">{item.sub}</p>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 5. ANİMASYONLU İMZA VE MESLEK BEYANI ================= */
+export function SignatureQuote() {
+  return (
+    <section className="relative overflow-hidden bg-obsidian py-24 sm:py-32 text-white">
+      <div className="pointer-events-none absolute inset-0 opacity-15">
+        <Image
+          src="/images/sketch.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover mix-blend-screen invert"
+        />
+      </div>
+
+      <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+        <span className="mx-auto block h-12 w-px bg-accent" />
+        <h3 className="mt-8 font-serif text-2xl font-light italic sm:text-4xl text-slate-100 leading-snug">
+          “Hukuki meseleler, yüzeysel yaklaşımlarla değil; her bir belgenin, her bir sürenin ve her bir içtihadın dikkatle tahlil edilmesiyle neticeye kavuşturulur.”
+        </h3>
+
+        {/* Vektörel İmza Çizimi */}
+        <div className="mx-auto mt-10 max-w-xs">
+          <svg viewBox="0 0 300 80" fill="none" className="w-full" aria-label={`Av. ${fullName} İmza`}>
+            <motion.path
+              d="M20 50 C30 20 45 10 55 18 C65 26 40 60 35 65 C50 45 70 25 80 32 C90 40 75 58 85 58 C95 58 105 38 115 38 C125 38 118 55 128 55 C140 55 150 25 160 25 C170 25 165 52 175 52 C188 52 198 18 208 18 C220 18 210 50 225 50 C240 50 255 28 275 22"
+              stroke="#c59b27"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2.8, ease: "easeInOut" }}
+            />
+            <motion.path
+              d="M30 68 C100 64 190 65 270 60"
+              stroke="#c59b27"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 0.8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 2.5 }}
+            />
+          </svg>
+        </div>
+
+        <p className="mt-4 font-serif text-lg font-medium text-white">Av. {fullName}</p>
+        <p className="text-xs uppercase tracking-[0.25em] text-accent mt-1">
+          {lawyer.bar} · Sicil No: {lawyer.barNo}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 6. SIKÇA SORULAN HUKUKİ SORULAR (AKORDİYON) ================= */
+export function LegalFaqAccordion() {
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
+  const faqs = [
+    {
+      q: "Avukatlık görüşmesi ve randevu süreci nasıl işler?",
+      a: "Büromuzda görüşmeler ön randevu usulüyle kabul edilmektedir. İlk görüşmede uyuşmazlığa dair mevcut belge, sözleşme ve yazışmalar incelenir. İletişim sayfamızdan veya doğrudan telefonla arayarak uygun gün ve saat belirlenebilir.",
+    },
+    {
+      q: "Dava açmadan önce arabuluculuk sürecine başvurmak zorunlu mudur?",
+      a: "Kira ilişkilerinden doğan uyuşmazlıklar, işçilik alacakları ve belirli ticari davalarda arabuluculuk kanunen zorunlu dava şartıdır. Arabulucuya başvurulmadan doğrudan dava açılması halinde mahkeme davayı usulden reddeder.",
+    },
+    {
+      q: "Avukatlık vekaletnamesi nasıl ve nereden çıkartılır?",
+      a: "Vekaletname, herhangi bir Noterlik kanalıyla düzenlenir. Şirketler için imza sirküleri ve yetki belgesi, şahıslar için kimlik belgesi yeterlidir. Boşanma ve taşınmaz satış vekaletnameleri için iki adet vesikalık fotoğraf gerekmektedir.",
+    },
+    {
+      q: "Avukatlık ücreti ve yargılama giderleri nasıl belirlenir?",
+      a: "Avukatlık ücretleri, Türkiye Barolar Birliği ve yerel Baronun belirlediği Asgari Ücret Tarifesi esas alınarak, uyuşmazlığın mahiyeti, dava değeri ve harcanacak mesaiye göre sözleşme ile belirlenir.",
+    },
+  ];
+
+  return (
+    <section className="py-24 sm:py-32 bg-bg border-b border-card-border">
+      <div className="mx-auto max-w-4xl px-5 sm:px-8">
+        <div className="text-center">
+          <SectionBadge number="04">Bilgilendirme</SectionBadge>
+          <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
+            Sıkça Sorulan <span className="italic text-accent">Hukuki Sorular</span>
+          </h2>
+          <p className="mt-3 text-sm text-fg-muted">
+            Avukatlık vekaleti ve adli süreçlere ilişkin temel usul kuralları.
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-4">
+          {faqs.map((faq, idx) => (
+            <div
+              key={faq.q}
+              className="rounded-2xl border border-card-border bg-card overflow-hidden transition-colors"
+            >
+              <button
+                onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                className="flex w-full items-center justify-between p-6 text-left"
+              >
+                <span className="font-serif text-lg font-medium text-fg pr-4">{faq.q}</span>
+                <ChevronDown
+                  className={`h-5 w-5 shrink-0 text-accent transition-transform duration-300 ${
+                    openIdx === idx ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {openIdx === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="px-6 pb-6 text-sm leading-relaxed text-fg-muted border-t border-line/60 pt-4">
+                      {faq.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 7. HUKUKİ BİLGİLER (MAKALELER) ================= */
+export function InsightsSection() {
+  return (
+    <section className="py-24 sm:py-32 bg-bg">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
+          <div>
+            <SectionBadge number="05">Güncel Hukuk</SectionBadge>
+            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
+              Bilgilendirici <span className="italic text-accent">Hukuki Makaleler</span>
+            </h2>
+          </div>
+          <Link
+            href="/hukuki-bilgiler"
+            className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent transition-colors hover:text-fg"
+          >
+            <span>Tüm Makaleleri Oku</span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
+        </div>
+
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {articles.map((art, idx) => (
+            <FadeIn key={art.slug} delay={idx * 0.1}>
+              <Link
+                href={`/hukuki-bilgiler/${art.slug}`}
+                className="group flex h-full flex-col justify-between rounded-2xl border border-card-border bg-card p-8 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-xs text-fg-muted">
+                    <span className="font-semibold text-accent">{art.category}</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {art.readTime}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-4 font-serif text-xl font-normal text-fg transition-colors group-hover:text-accent">
+                    {art.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-relaxed text-fg-muted">
+                    {art.excerpt}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between border-t border-line pt-4 text-xs">
+                  <span className="text-fg-muted">{art.date}</span>
+                  <span className="font-semibold text-accent group-hover:underline">
+                    Yazıyı Oku &rarr;
+                  </span>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 8. HIZLI RANDEVU VE İLETİŞİM FORMU ================= */
+export function ContactCtaBanner() {
+  const [formSent, setFormSent] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [subject, setSubject] = useState(areas[0]?.title || "");
+  const [note, setNote] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSent(true);
+  };
+
+  return (
+    <section className="relative overflow-hidden border-t border-card-border bg-bg-alt/70 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+          {/* Sol Kolon: Doğrudan İletişim */}
+          <div className="lg:col-span-5">
+            <SectionBadge number="06">Randevu Talebi</SectionBadge>
+            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
+              Büromuzla <br />
+              <span className="italic text-accent">İletişime Geçin</span>
+            </h2>
+            <p className="mt-4 text-base text-fg-muted">
+              Görüşmeler randevu esasına tabidir. Uyuşmazlığınıza dair belgeler ile birlikte ön görüşme talep edebilirsiniz.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              <a
+                href={lawyer.phoneHref}
+                className="flex items-center gap-4 rounded-2xl border border-card-border bg-card p-4 transition-all hover:border-accent hover:shadow-md"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-subtle text-accent">
+                  <Phone className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-fg-muted">Telefon</p>
+                  <p className="font-serif text-lg font-medium text-fg">{lawyer.phoneDisplay}</p>
+                </div>
+              </a>
+
+              <a
+                href={`mailto:${lawyer.email}`}
+                className="flex items-center gap-4 rounded-2xl border border-card-border bg-card p-4 transition-all hover:border-accent hover:shadow-md"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-subtle text-accent">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-fg-muted">E-posta</p>
+                  <p className="text-sm font-medium text-fg">{lawyer.email}</p>
+                </div>
+              </a>
+
+              <div className="flex items-center gap-4 rounded-2xl border border-card-border bg-card p-4">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-subtle text-accent">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-fg-muted">Büro Adresi</p>
+                  <p className="text-xs font-medium text-fg">{lawyer.address}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sağ Kolon: Hızlı Randevu / Ön Talep Kartı */}
+          <div className="lg:col-span-7">
+            <div className="rounded-3xl border border-card-border bg-card p-8 sm:p-10 shadow-xl">
+              <h3 className="font-serif text-2xl font-normal text-fg">
+                Ön Randevu ve Danışmanlık Talebi
+              </h3>
+              <p className="mt-2 text-xs text-fg-muted">
+                İlettiğiniz bilgiler mesleki sır ve KVKK hükümleri çerçevesinde gizli tutulur.
+              </p>
+
+              {formSent ? (
+                <div className="mt-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-8 text-center text-emerald-800 dark:text-emerald-300">
+                  <CheckCircle className="mx-auto h-12 w-12 text-emerald-500" />
+                  <h4 className="mt-4 font-serif text-xl font-medium">Talebiniz Alındı</h4>
+                  <p className="mt-2 text-sm">
+                    Görüşme talebiniz tarafımıza iletilmiştir. Çalışma saatlerimiz dahilinde tarafınıza dönüş yapılacaktır.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-fg-muted mb-2">
+                        Adınız Soyadınız
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Örn: Ahmet Yılmaz"
+                        className="w-full rounded-xl border border-card-border bg-bg-alt/50 px-4 py-3 text-sm text-fg placeholder:text-fg-muted/60 focus:border-accent focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-fg-muted mb-2">
+                        Telefon Numaranız
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="0 (5XX) XXX XX XX"
+                        className="w-full rounded-xl border border-card-border bg-bg-alt/50 px-4 py-3 text-sm text-fg placeholder:text-fg-muted/60 focus:border-accent focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-fg-muted mb-2">
+                      Uyuşmazlık Konusu / Alan
+                    </label>
+                    <select
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      className="w-full rounded-xl border border-card-border bg-bg-alt/50 px-4 py-3 text-sm text-fg focus:border-accent focus:outline-none"
+                    >
+                      {areas.map((a) => (
+                        <option key={a.slug} value={a.title}>
+                          {a.title}
+                        </option>
+                      ))}
+                      <option value="Diğer Hukuki Konu">Diğer Hukuki Konu</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-fg-muted mb-2">
+                      Ön Bilgi / Not
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      placeholder="Konuyu ve varsa tebligat / yasal süreleri özetleyiniz..."
+                      className="w-full rounded-xl border border-card-border bg-bg-alt/50 px-4 py-3 text-sm text-fg placeholder:text-fg-muted/60 focus:border-accent focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-4 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition-all hover:bg-bronze-light hover:shadow-lg"
+                    >
+                      <Send className="h-4 w-4" />
+                      <span>Randevu Talebini Gönder</span>
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </section>
