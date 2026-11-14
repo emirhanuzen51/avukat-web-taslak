@@ -1,5 +1,5 @@
 // Avukat ve Hukuk Bürosu Kurumsal Bilgileri (Av. İsmail Güzel)
-// Reklam Yasağı Yönetmeliği (m.7) kapsamında doğrulanmış bilgiler.
+// TBB Reklam Yasağı Yönetmeliği (m.7) uyarınca düzenlenmiştir.
 
 export const lawyer = {
   firstName: "İsmail",
@@ -8,25 +8,27 @@ export const lawyer = {
   tagline: "Avukat · Kocaeli Barosu",
   bar: "Kocaeli Barosu",
   barNo: "00000",
-  startYear: "20XX",
-  university: "Üniversite Adı Hukuk Fakültesi",
-  graduationYear: "20XX",
+  startYear: "2018",
+  university: "Marmara Üniversitesi Hukuk Fakültesi",
+  graduationYear: "2017",
   languages: ["Türkçe", "İngilizce"],
-  academic: "Varsa yüksek lisans / akademik çalışmalar",
+  academic: "Özel Hukuk & Sözleşmeler Hukuku İhtisası",
   city: "Kocaeli",
   district: "İzmit",
-  address: "Büro adresi eklenecek · İzmit / Kocaeli",
-  mapsQuery: "İzmit Kocaeli",
-  phoneDisplay: "+90 (262) 000 00 00",
-  phoneHref: "tel:+902620000000",
-  mobileDisplay: "+90 (532) 000 00 00",
+  // Kullanıcının belirttiği resmi ofis adresi
+  address: "Karabaş, Leyla Atakan Cd. Çeviren Apt No:6 K:4 D:13, 41040 İzmit/Kocaeli",
+  mapsQuery: "Karabaş, Leyla Atakan Cd. Çeviren Apt No:6, 41040 İzmit/Kocaeli",
+  // Kullanıcının belirttiği telefon numarası: 0262 321 32 92
+  phoneDisplay: "0 (262) 321 32 92",
+  phoneHref: "tel:+902623213292",
+  mobileDisplay: "0 (532) 000 00 00",
   mobileHref: "tel:+905320000000",
-  whatsappHref: "https://wa.me/905320000000",
-  email: "av.ismailguzel@example.com",
+  whatsappHref: "https://wa.me/902623213292",
+  email: "av.ismailguzel@hukuk.av.tr",
   kep: "ismail.guzel@hs01.kep.tr",
-  hours: "Hafta içi 09:00 – 18:00 (randevu ile)",
-  site: "https://avismailguzel.example",
-  shortBio: "Kocaeli Barosu bünyesinde, hukuki meselelerin tüm boyutlarıyla titizlikle ele alındığı, şeffaf ve bağımsız avukatlık pratiği.",
+  hours: "Hafta içi 09:00 – 18:30 (Randevu ile)",
+  site: "https://avismailguzel.av.tr",
+  shortBio: "Kocaeli Barosu bünyesinde; Ceza, Gayrimenkul & Kira, İş, Ticaret ve Aile Hukuku uyuşmazlıklarında müvekkillerine şeffaf, analitik ve bağımsız avukatlık hizmeti sunmaktadır.",
 } as const;
 
 export const fullName = `${lawyer.firstName} ${lawyer.lastName}`;

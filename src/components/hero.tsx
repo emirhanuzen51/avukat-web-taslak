@@ -3,23 +3,21 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   CheckCircle2,
   ChevronRight,
   Clock,
   MapPin,
-  Scale,
+  Phone,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { fullName, lawyer } from "@/lib/lawyer";
 import { VCardButton } from "./chrome";
 import { easeCustom } from "./motion";
 
 export function Hero() {
-  const [activePhoto, setActivePhoto] = useState<"portrait" | "office">("portrait");
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
@@ -56,11 +54,11 @@ export function Hero() {
                 {lawyer.bar}
               </span>
               <span className="text-xs text-fg-muted">·</span>
-              <span className="text-xs text-fg-muted">Sicil No: {lawyer.barNo}</span>
+              <span className="text-xs text-fg-muted">İzmit / Kocaeli</span>
               <span className="text-xs text-fg-muted">·</span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Aktif Sicil
+                Aktif Danışmanlık
               </span>
             </motion.div>
 
@@ -71,9 +69,9 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.1, ease: easeCustom }}
               className="mt-6 font-serif text-4xl font-normal tracking-tight text-fg sm:text-6xl lg:text-[4.25rem] lg:leading-[1.1]"
             >
-              Hukuki Meselelerde <br />
-              <span className="italic font-medium text-accent">Stratejik ve Şeffaf</span> <br />
-              Temsil Pratiği.
+              Hukuki Uyuşmazlıklarda <br />
+              <span className="italic font-medium text-accent">Stratejik, Şeffaf</span> <br />
+              ve Kararlı Temsil.
             </motion.h1>
 
             {/* Açıklama Metni */}
@@ -83,7 +81,7 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.2, ease: easeCustom }}
               className="mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg"
             >
-              Av. {fullName}, müvekkillerine hukuki süreçlerin her aşamasında dosyanın tüm risk ve imkânlarını açıkça aktaran, mevzuat ve içtihatları titizlikle analiz eden bağımsız bir avukatlık pratiği sunar.
+              Av. {fullName}, Kocaeli ve çevre illerde bireysel ve kurumsal müvekkillerine Ceza, Gayrimenkul & Kira, İş, Ticaret ve Aile Hukuku alanlarında derinlemesine mevzuat analizi ve şeffaf dava takibi sunar.
             </motion.p>
 
             {/* Buton Grubu */}
@@ -93,19 +91,19 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.3, ease: easeCustom }}
               className="mt-10 flex flex-wrap items-center gap-4"
             >
-              <Link
-                href="/iletisim"
+              <a
+                href={lawyer.phoneHref}
                 className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-bronze-light hover:shadow-lg hover:-translate-y-0.5"
               >
-                <span>Randevu ve İletişim</span>
-                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+                <Phone className="h-4 w-4" />
+                <span>{lawyer.phoneDisplay}</span>
+              </a>
 
               <Link
-                href="/calisma-alanlari"
+                href="/iletisim"
                 className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/80 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-fg transition-all duration-300 hover:border-accent hover:text-accent hover:-translate-y-0.5"
               >
-                <span>Çalışma Alanları</span>
+                <span>Randevu Talebi & Konum</span>
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
 
@@ -121,20 +119,20 @@ export function Hero() {
             >
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" />
-                <span className="text-xs font-medium text-fg">Gizlilik & Sadakat İlkesi</span>
+                <span className="text-xs font-medium text-fg">Mesleki Gizlilik & Sır Saklama</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" />
-                <span className="text-xs font-medium text-fg">Düzenli Dosya Raporlaması</span>
+                <span className="text-xs font-medium text-fg">Düzenli UYAP & Dava Takibi</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" />
-                <span className="text-xs font-medium text-fg">Önleyici Hukuk Çözümleri</span>
+                <span className="text-xs font-medium text-fg">TBB Reklam Yasağına Tam Uyum</span>
               </div>
             </motion.div>
           </div>
 
-          {/* Sağ Kolon: Fotoğraf & İnteraktif Kart */}
+          {/* Sağ Kolon: Doğrudan Portre Fotoğrafı */}
           <div className="lg:col-span-5">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
@@ -142,71 +140,19 @@ export function Hero() {
               transition={{ duration: 0.9, delay: 0.2, ease: easeCustom }}
               className="relative mx-auto max-w-md lg:max-w-none"
             >
-              {/* Fotoğraf Değiştirici Butonlar */}
-              <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 rounded-full bg-obsidian/75 p-1 backdrop-blur-md border border-white/15">
-                <button
-                  onClick={() => setActivePhoto("portrait")}
-                  className={`rounded-full px-3 py-1 text-[11px] font-medium transition-all ${
-                    activePhoto === "portrait"
-                      ? "bg-accent text-white shadow-xs"
-                      : "text-slate-300 hover:text-white"
-                  }`}
-                >
-                  Portre
-                </button>
-                <button
-                  onClick={() => setActivePhoto("office")}
-                  className={`rounded-full px-3 py-1 text-[11px] font-medium transition-all ${
-                    activePhoto === "office"
-                      ? "bg-accent text-white shadow-xs"
-                      : "text-slate-300 hover:text-white"
-                  }`}
-                >
-                  Kütüphane
-                </button>
-              </div>
+              {/* İnce zarif altın dış çizgi çerçevesi */}
+              <div className="absolute -inset-2.5 rounded-3xl border border-accent/20 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
 
-              {/* Ana Görsel Çerçevesi */}
+              {/* Doğrudan Portre Görseli */}
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-card-border bg-card shadow-2xl">
-                <AnimatePresence mode="wait">
-                  {activePhoto === "portrait" ? (
-                    <motion.div
-                      key="portrait"
-                      initial={{ opacity: 0, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="relative h-full w-full"
-                    >
-                      <Image
-                        src="/images/portrait.jpg"
-                        alt={`Av. ${fullName} Portre`}
-                        fill
-                        sizes="(min-width: 1024px) 40vw, 90vw"
-                        className="object-cover object-top"
-                        priority
-                      />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="office"
-                      initial={{ opacity: 0, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="relative h-full w-full"
-                    >
-                      <Image
-                        src="/images/library.jpg"
-                        alt="Hukuk Kütüphanesi ve Bürosu"
-                        fill
-                        sizes="(min-width: 1024px) 40vw, 90vw"
-                        className="object-cover"
-                        priority
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <Image
+                  src="/images/portrait.jpg"
+                  alt={`Av. ${fullName} - ${lawyer.bar}`}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 90vw"
+                  className="object-cover object-top transition-transform duration-700 hover:scale-105"
+                  priority
+                />
 
                 {/* Alt Karartma ve Bilgi */}
                 <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/25 to-transparent pointer-events-none" />
@@ -214,7 +160,7 @@ export function Hero() {
                 <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 text-white">
                   <div className="flex items-center gap-2 text-xs text-accent">
                     <MapPin className="h-3.5 w-3.5" />
-                    <span>{lawyer.district} / {lawyer.city}</span>
+                    <span>Leyla Atakan Cd. İzmit / Kocaeli</span>
                   </div>
                   <h3 className="mt-2 font-serif text-2xl font-normal text-white">
                     Av. {fullName}
@@ -233,7 +179,7 @@ export function Hero() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-fg">Büro Açık</span>
+                      <span className="text-xs font-semibold text-fg">Görüşme Saatleri</span>
                       {currentTime && (
                         <span className="font-mono text-[11px] text-accent font-medium">
                           {currentTime}
