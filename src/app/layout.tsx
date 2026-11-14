@@ -3,7 +3,7 @@ import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { fullName, lawyer } from "@/lib/lawyer";
 import { areas } from "@/lib/areas";
-import { Cursor, Footer, Header } from "@/components/chrome";
+import { Footer, Header } from "@/components/chrome";
 import { SmoothScroll } from "@/components/motion";
 
 const playfair = Playfair_Display({
@@ -34,6 +34,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#090d14",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 const jsonLd = {
@@ -74,7 +77,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <SmoothScroll />
-        <Cursor />
         <Header />
         {children}
         <Footer />

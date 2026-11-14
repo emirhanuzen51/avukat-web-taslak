@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowUpRight,
   Clock,
   Download,
   Mail,
   MapPin,
   Menu,
   Moon,
+  Navigation,
   Phone,
   Shield,
   Sun,
@@ -23,13 +23,13 @@ import { Monogram } from "./icons";
 /* ---------------- Logo & Marka ---------------- */
 export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <div className="flex items-center gap-3.5 group">
-      <Monogram className="h-10 w-10 shrink-0 transition-transform duration-300 group-hover:scale-105" light={light} />
+    <div className="flex items-center gap-3 group">
+      <Monogram className="h-9 w-9 sm:h-10 sm:w-10 shrink-0 transition-transform duration-300 group-hover:scale-105" light={light} />
       <div className="leading-tight">
-        <span className={`block font-serif text-lg font-medium tracking-tight ${light ? "text-white" : "text-fg"}`}>
+        <span className={`block font-serif text-base sm:text-lg font-medium tracking-tight ${light ? "text-white" : "text-fg"}`}>
           Av. {fullName}
         </span>
-        <span className="block text-[10px] uppercase font-semibold tracking-[0.2em] text-accent">
+        <span className="block text-[9px] sm:text-[10px] uppercase font-semibold tracking-[0.2em] text-accent">
           {lawyer.bar}
         </span>
       </div>
@@ -58,7 +58,7 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={dark ? "Açık temaya geç" : "Koyu temaya geç"}
-      className="relative grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/70 text-fg transition-all duration-300 hover:border-accent hover:text-accent"
+      className="relative grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/80 text-fg transition-all duration-200 hover:border-accent hover:text-accent"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -101,7 +101,7 @@ export function VCardButton({ variant = "default" }: { variant?: "default" | "ou
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
-  let styles = "border border-line bg-card/80 text-fg hover:border-accent hover:text-accent";
+  let styles = "border border-line bg-card/90 text-fg hover:border-accent hover:text-accent";
   if (variant === "outline") {
     styles = "border border-accent text-accent hover:bg-accent hover:text-white";
   } else if (variant === "white") {
@@ -111,7 +111,7 @@ export function VCardButton({ variant = "default" }: { variant?: "default" | "ou
   return (
     <button
       onClick={download}
-      className={`group inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] transition-all duration-300 ${styles}`}
+      className={`group inline-flex items-center gap-2 rounded-full px-4 py-2.5 sm:px-5 sm:py-2.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${styles}`}
     >
       <Download className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" />
       <span>Kartviziti Kaydet</span>
@@ -140,26 +140,26 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-card-border bg-bg/85 py-3 shadow-xs backdrop-blur-xl"
-            : "bg-transparent py-5"
+            ? "border-b border-card-border bg-bg/90 py-3 shadow-xs backdrop-blur-xl"
+            : "bg-transparent py-4 sm:py-5"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="Ana sayfa">
             <Brand />
           </Link>
 
           {/* Masaüstü Navigasyon */}
-          <nav className="hidden items-center gap-1 rounded-full border border-card-border bg-card/60 p-1.5 backdrop-blur-md lg:flex">
+          <nav className="hidden items-center gap-1 rounded-full border border-card-border bg-card/80 p-1.5 backdrop-blur-md lg:flex">
             {nav.map((item) => {
               const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative rounded-full px-4 py-2 text-xs font-medium tracking-[0.05em] transition-colors duration-200 ${
+                  className={`relative rounded-full px-4 py-2 text-xs font-semibold tracking-wider transition-colors duration-200 ${
                     active ? "text-fg" : "text-fg-muted hover:text-fg"
                   }`}
                 >
@@ -176,23 +176,24 @@ export function Header() {
             })}
           </nav>
 
-          {/* Sağ Eylemler: Tema & Hızlı Arama Butonu */}
-          <div className="flex items-center gap-2.5">
+          {/* Sağ Eylemler: Telefon & Tema */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <a
               href={lawyer.phoneHref}
-              className="hidden items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-4 py-2 text-xs font-semibold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white sm:inline-flex"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white"
             >
               <Phone className="h-3.5 w-3.5" />
-              <span>{lawyer.phoneDisplay}</span>
+              <span className="hidden sm:inline">{lawyer.phoneDisplay}</span>
+              <span className="sm:hidden text-[11px]">Ara</span>
             </a>
 
             <ThemeToggle />
 
-            {/* Mobil Menü Butonu */}
+            {/* Mobil Menü Açma Butonu */}
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Menüyü aç"
-              className="grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/70 text-fg lg:hidden hover:border-accent"
+              className="grid h-9 w-9 place-items-center rounded-full border border-card-border bg-card/80 text-fg lg:hidden hover:border-accent"
             >
               <Menu className="h-4 w-4" />
             </button>
@@ -204,10 +205,11 @@ export function Header() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col bg-bg/95 p-6 backdrop-blur-2xl lg:hidden"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-50 flex flex-col bg-bg p-6 lg:hidden"
           >
             <div className="flex items-center justify-between border-b border-line pb-4">
               <Brand />
@@ -223,7 +225,7 @@ export function Header() {
             <nav className="mt-8 flex flex-col gap-2">
               <Link
                 href="/"
-                className={`rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+                className={`rounded-2xl px-5 py-3.5 text-base font-medium transition-colors ${
                   pathname === "/" ? "bg-accent-subtle text-accent font-semibold" : "text-fg hover:bg-card"
                 }`}
               >
@@ -235,7 +237,7 @@ export function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+                    className={`rounded-2xl px-5 py-3.5 text-base font-medium transition-colors ${
                       active ? "bg-accent-subtle text-accent font-semibold" : "text-fg hover:bg-card"
                     }`}
                   >
@@ -246,20 +248,55 @@ export function Header() {
             </nav>
 
             <div className="mt-auto border-t border-line pt-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-fg-muted">Doğrudan İletişim</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-fg-muted font-semibold">Doğrudan İletişim</p>
               <a href={lawyer.phoneHref} className="mt-2 block font-serif text-xl font-medium text-fg">
                 {lawyer.phoneDisplay}
               </a>
-              <a href={`mailto:${lawyer.email}`} className="mt-1 block text-sm text-fg-muted">
-                {lawyer.email}
-              </a>
-              <div className="mt-5">
+              <p className="mt-1 text-xs text-fg-muted leading-relaxed">
+                {lawyer.address}
+              </p>
+              <div className="mt-5 flex gap-2">
+                <a
+                  href={lawyer.phoneHref}
+                  className="flex-1 rounded-full bg-accent py-3 text-center text-xs font-semibold uppercase tracking-wider text-white shadow-md"
+                >
+                  Hemen Ara
+                </a>
                 <VCardButton />
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobil Cihazlar İçin Sabit Alt Hızlı Eylem Çubuğu (Bottom Action Dock) */}
+      <div className="fixed bottom-3 inset-x-3 z-40 block sm:hidden">
+        <div className="flex items-center justify-between rounded-full border border-card-border bg-card/95 p-1.5 shadow-2xl backdrop-blur-xl">
+          <a
+            href={lawyer.phoneHref}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-accent py-2.5 text-xs font-bold text-white shadow-sm"
+          >
+            <Phone className="h-3.5 w-3.5" />
+            <span>Hemen Ara</span>
+          </a>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lawyer.mapsQuery)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-fg hover:text-accent"
+          >
+            <Navigation className="h-3.5 w-3.5 text-accent" />
+            <span>Yol Tarifi</span>
+          </a>
+          <Link
+            href="/iletisim"
+            className="flex flex-1 items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-fg hover:text-accent"
+          >
+            <Clock className="h-3.5 w-3.5 text-accent" />
+            <span>Randevu</span>
+          </Link>
+        </div>
+      </div>
     </>
   );
 }
@@ -267,13 +304,13 @@ export function Header() {
 /* ---------------- Alt Bilgi / Footer ---------------- */
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-card-border bg-obsidian text-slate-300 pt-20 pb-12">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 pb-16 border-b border-white/10">
+    <footer className="relative overflow-hidden border-t border-card-border bg-obsidian text-slate-300 pt-16 pb-24 sm:pb-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-12 pb-14 border-b border-white/10">
           {/* Sol Kolon: Kurumsal Kimlik & Baro Bilgisi */}
           <div className="lg:col-span-5">
             <Brand light />
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-slate-400">
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-400">
               {lawyer.shortBio}
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -343,11 +380,11 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-4 shrink-0">
             <Link href="/kvkk" className="hover:text-slate-300 transition-colors">
-              KVKK Aydınlatma
+              KVKK
             </Link>
             <span>·</span>
             <Link href="/cerez-politikasi" className="hover:text-slate-300 transition-colors">
-              Çerez Politikası
+              Çerezler
             </Link>
             <span>·</span>
             <span>© {new Date().getFullYear()}</span>
@@ -355,74 +392,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-/* ---------------- Özel İmleç (Masaüstü için) ---------------- */
-export function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-    setActive(true);
-    document.documentElement.classList.add("has-cursor");
-
-    let mouseX = -100;
-    let mouseY = -100;
-    let ringX = -100;
-    let ringY = -100;
-    let isHovering = false;
-    let animId = 0;
-
-    const handlePointerMove = (e: PointerEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      isHovering = !!(e.target as HTMLElement).closest("a, button, input, textarea, select");
-    };
-
-    const render = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-      }
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${
-          isHovering ? 1.7 : 1
-        })`;
-      }
-      animId = requestAnimationFrame(render);
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    animId = requestAnimationFrame(render);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("pointermove", handlePointerMove);
-      document.documentElement.classList.remove("has-cursor");
-    };
-  }, []);
-
-  if (!active) return null;
-
-  return (
-    <>
-      <div
-        ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-2 w-2 rounded-full bg-accent"
-        aria-hidden="true"
-      />
-      <div
-        ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-8 w-8 rounded-full border border-accent/60 transition-transform duration-75"
-        aria-hidden="true"
-      />
-    </>
   );
 }

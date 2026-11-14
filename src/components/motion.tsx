@@ -2,15 +2,18 @@
 
 import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Lenis from "lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
+    // Dokunmatik / mobil ekranlarda yerel kaydırma kullanılsın
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.65, // Hızlı ve dinamik tepki
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.2,
+      touchMultiplier: 1,
     });
 
     function raf(time: number) {
@@ -41,10 +44,10 @@ export function FadeIn({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, delay, ease: easeCustom }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.5, delay, ease: easeCustom }}
       className={className}
     >
       {children}
@@ -63,32 +66,10 @@ export function SlideUp({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 35 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8, delay, ease: easeCustom }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-export function ScaleIn({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.94 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, delay, ease: easeCustom }}
+      transition={{ duration: 0.6, delay, ease: easeCustom }}
       className={className}
     >
       {children}
@@ -125,13 +106,13 @@ export function SpotlightCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`group relative overflow-hidden rounded-2xl border border-card-border bg-card transition-all duration-300 ${className}`}
+      className={`group relative overflow-hidden rounded-2xl border border-card-border bg-card transition-all duration-200 ${className}`}
     >
       {coords && (
         <div
-          className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-200 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(400px circle at ${coords.x}px ${coords.y}px, var(--accent-subtle), transparent 80%)`,
+            background: `radial-gradient(350px circle at ${coords.x}px ${coords.y}px, var(--accent-subtle), transparent 80%)`,
           }}
         />
       )}
@@ -148,8 +129,8 @@ export function SectionBadge({
   number?: string;
 }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/80 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-accent backdrop-blur-md shadow-xs">
-      {number && <span className="font-mono text-[10px] text-fg-muted">0{number}</span>}
+    <div className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/85 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-accent shadow-xs">
+      {number && <span className="font-mono text-[10px] text-fg-muted">{number}</span>}
       <span>{children}</span>
     </div>
   );
@@ -169,28 +150,28 @@ export function PageHero({
   image?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-card-border bg-gradient-to-b from-bg-alt/70 via-bg to-bg pt-32 pb-20 sm:pt-40 sm:pb-28">
+    <section className="relative overflow-hidden border-b border-card-border bg-gradient-to-b from-bg-alt/70 via-bg to-bg pt-28 pb-16 sm:pt-36 sm:pb-24">
       {image && (
         <div className="absolute inset-0 -z-10 opacity-[0.09] dark:opacity-[0.16] pointer-events-none">
           <Image src={image} alt="" fill sizes="100vw" className="object-cover" priority />
         </div>
       )}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <SectionBadge>{badge}</SectionBadge>
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: easeCustom }}
-            className="mt-6 font-serif text-4xl font-normal tracking-tight sm:text-5xl lg:text-6xl text-fg"
+            transition={{ duration: 0.5, ease: easeCustom }}
+            className="mt-4 font-serif text-3xl font-normal tracking-tight sm:text-5xl lg:text-6xl text-fg"
           >
             {title} {highlight && <span className="italic font-medium text-accent">{highlight}</span>}
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: easeCustom }}
-            className="mt-6 text-lg leading-relaxed text-fg-muted sm:text-xl"
+            transition={{ duration: 0.5, delay: 0.1, ease: easeCustom }}
+            className="mt-4 text-base leading-relaxed text-fg-muted sm:text-lg"
           >
             {description}
           </motion.p>
