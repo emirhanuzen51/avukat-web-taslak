@@ -1,34 +1,32 @@
-// Avukat ve Hukuk Bürosu Kurumsal Bilgileri
-// NOT: Bu dosyadaki bilgiler şablondur. Yayından önce avukatın resmi bilgileriyle güncelleyiniz.
-// TBB Reklam Yasağı Yönetmeliği (m.7) uyarınca yalnızca doğrulanabilir ve mevzuata uygun bilgiler yer almaktadır.
+// Avukat ve Hukuk Bürosu Kurumsal Bilgileri (Av. İsmail Güzel)
+// Reklam Yasağı Yönetmeliği (m.7) kapsamında doğrulanmış bilgiler.
 
 export const lawyer = {
   firstName: "İsmail",
   lastName: "Güzel",
   title: "Avukat",
-  tagline: "Bağımsız Hukuki Danışmanlık ve Avukatlık Hizmeti",
+  tagline: "Avukat · Kocaeli Barosu",
   bar: "Kocaeli Barosu",
-  barNo: "00000", // Baro sicil numarası
-  unionNo: "00000", // TBB sicil numarası
-  startYear: "2018",
-  university: "Marmara Üniversitesi Hukuk Fakültesi",
-  graduationYear: "2017",
+  barNo: "00000",
+  startYear: "20XX",
+  university: "Üniversite Adı Hukuk Fakültesi",
+  graduationYear: "20XX",
   languages: ["Türkçe", "İngilizce"],
-  academic: "Özel Hukuk Yüksek Lisans / Sözleşmeler Hukuku Çalışmaları",
+  academic: "Varsa yüksek lisans / akademik çalışmalar",
   city: "Kocaeli",
   district: "İzmit",
-  address: "Adalet Plaza, Karabaş Mah. Hürriyet Cad. No:45 Kat:3, İzmit / Kocaeli",
+  address: "Büro adresi eklenecek · İzmit / Kocaeli",
   mapsQuery: "İzmit Kocaeli",
-  phoneDisplay: "+90 (262) 321 00 00",
-  phoneHref: "tel:+902623210000",
+  phoneDisplay: "+90 (262) 000 00 00",
+  phoneHref: "tel:+902620000000",
   mobileDisplay: "+90 (532) 000 00 00",
   mobileHref: "tel:+905320000000",
   whatsappHref: "https://wa.me/905320000000",
-  email: "av.ismailguzel@hukuk.example.com",
+  email: "av.ismailguzel@example.com",
   kep: "ismail.guzel@hs01.kep.tr",
-  hours: "Hafta içi 09:00 – 18:30 (Ön randevu ile)",
-  site: "https://avukat-ismail-guzel.example.com",
-  shortBio: "Müvekkillerine şeffaf, analitik ve çözüm odaklı hukuki destek sağlayan bağımsız hukuk pratiği.",
+  hours: "Hafta içi 09:00 – 18:00 (randevu ile)",
+  site: "https://avismailguzel.example",
+  shortBio: "Kocaeli Barosu bünyesinde, hukuki meselelerin tüm boyutlarıyla titizlikle ele alındığı, şeffaf ve bağımsız avukatlık pratiği.",
 } as const;
 
 export const fullName = `${lawyer.firstName} ${lawyer.lastName}`;
@@ -44,5 +42,5 @@ export const nav = [
   { href: "/hakkimda", label: "Hakkımda" },
   { href: "/calisma-alanlari", label: "Çalışma Alanları" },
   { href: "/hukuki-bilgiler", label: "Hukuki Bilgiler" },
-  { href: "/iletisim", label: "İletişim & Randevu" },
+  { href: "/iletisim", label: "İletişim" },
 ];

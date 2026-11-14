@@ -1,11 +1,13 @@
 import { Hero } from "@/components/hero";
 import {
-  ArchitectureFeature,
+  ArchitecturalGallery,
   BarAccreditationBar,
   BentoPracticeAreas,
   ContactCtaBanner,
   InsightsSection,
+  LegalFaqAccordion,
   ProcessTimeline,
+  SignatureQuote,
 } from "@/components/home";
 
 export default function Home() {
@@ -15,7 +17,9 @@ export default function Home() {
       <BarAccreditationBar />
       <BentoPracticeAreas />
       <ProcessTimeline />
-      <ArchitectureFeature />
+      <ArchitecturalGallery />
+      <SignatureQuote />
+      <LegalFaqAccordion />
       <InsightsSection />
       <ContactCtaBanner />
     </main>

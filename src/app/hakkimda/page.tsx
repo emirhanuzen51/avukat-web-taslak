@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Award, BookOpen, GraduationCap, Scale, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Scale, ShieldCheck } from "lucide-react";
 import { fullName, lawyer } from "@/lib/lawyer";
 import { FadeIn, PageHero, SectionBadge } from "@/components/motion";
 import { VCardButton } from "@/components/chrome";
@@ -85,11 +85,11 @@ export default function AboutPage() {
                       className="object-cover object-top"
                       priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/85 via-transparent to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-8 text-white">
-                      <p className="font-serif text-2xl">Av. {fullName}</p>
+                      <p className="font-serif text-2xl font-normal">Av. {fullName}</p>
                       <p className="text-xs uppercase tracking-widest text-accent mt-1">
-                        {lawyer.bar}
+                        {lawyer.tagline}
                       </p>
                     </div>
                   </div>
@@ -106,13 +106,13 @@ export default function AboutPage() {
 
               <div className="prose-executive mt-6 space-y-4">
                 <p>
-                  Av. {fullName}, lisans eğitimini {lawyer.university}&apos;nde tamamlamış; yasal avukatlık stajını başarıyla bitirerek {lawyer.bar}&apos;na kaydolmuştur.
+                  Av. {fullName}, {lawyer.university}&apos;nden mezun olmuş; avukatlık stajını başarıyla tamamlayarak {lawyer.bar}&apos;na kaydolmuştur. Mesleki faaliyetini {lawyer.city}&apos;de bağımsız olarak sürdürmektedir.
                 </p>
                 <p>
-                  Mesleki çalışmalarında temel düstur; dosya kapsamındaki maddi vakıaların derinlemesine incelenmesi, mevzuat ve Yargıtay içtihatlarının güncelliğinin denetlenmesi ve müvekkile karşı her aşamada şeffaf olunmasıdır.
+                  Çalışmalarında; müvekkilin bilgilendirilmesini, dosyanın tüm yönleriyle incelenmesini ve süreçlerin düzenli takibini esas alır. Her dosyanın kendine özgü koşulları olduğu bilinciyle, hukuki seçenekleri olası sonuçlarıyla birlikte açık bir dille paylaşır.
                 </p>
                 <p>
-                  Bireysel ve kurumsal müvekkillerine uyuşmazlık öncesi önleyici hukuk danışmanlığı sunmakta; arabuluculuk, uzlaştırma, dava ve icra süreçlerinde temsil görevini yürütmektedir.
+                  Mesleki faaliyetlerini Avukatlık Kanunu ve Türkiye Barolar Birliği Meslek Kuralları çerçevesinde icra eder.
                 </p>
               </div>
 
@@ -166,8 +166,25 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. Temel Değerler ve Meslek İlkeleri */}
-      <section className="py-24 sm:py-32 bg-bg">
+      {/* 3. Mimari Görsel Bandı */}
+      <section className="py-20 bg-bg">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
+              <Image src="/images/stairs.jpg" alt="" fill className="object-cover" />
+            </div>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
+              <Image src="/images/library.jpg" alt="" fill className="object-cover" />
+            </div>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
+              <Image src="/images/columns-shadow.jpg" alt="" fill className="object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Temel Değerler ve Meslek İlkeleri */}
+      <section className="border-t border-card-border py-24 sm:py-32 bg-bg-alt/30">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="max-w-2xl">
             <SectionBadge number="03">Mesleki Ahlak</SectionBadge>
