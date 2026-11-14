@@ -1,74 +1,50 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Clock, FileText, ShieldAlert } from "lucide-react";
-import { fullName } from "@/lib/lawyer";
 import { articles } from "@/lib/articles";
-import { FadeIn, PageHero, SectionBadge } from "@/components/motion";
+import { PageHero, Reveal } from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Hukuki Bilgiler & Makaleler",
-  description: `Av. ${fullName} — güncel mevzuat, yargı kararları ve hukuki bilgilendirme yazıları.`,
+  title: "Hukuki Bilgiler",
+  description: "Genel hukuki bilgilendirme yazıları.",
 };
 
-export default function ArticlesPage() {
+const fmt = (d: string) =>
+  new Date(d).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+
+export default function Page() {
   return (
     <main>
       <PageHero
-        badge="Bilgilendirme"
-        title="Hukuki "
-        highlight="Makale ve Bilgiler"
-        description="Mevzuat değişiklikleri, dava şartları ve temel haklara dair güncel hukuki incelemeler."
+        n="III"
+        kicker="Hukuki bilgiler"
+        title="Bilgilendirici"
+        italic="yazılar"
+        text="Mevzuat ve temel hukuki kavramlara ilişkin genel bilgilendirme yazıları. İçerikler hukuki danışmanlık niteliği taşımaz."
         image="/images/old-books.jpg"
       />
-
-      <section className="py-24 sm:py-32 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          {/* Yasal Uyarı Kutusu */}
-          <div className="mb-14 rounded-2xl border border-card-border bg-card p-6 text-xs text-fg-muted">
-            <div className="flex items-center gap-2.5 font-semibold text-fg">
-              <ShieldAlert className="h-4 w-4 text-accent" />
-              <span>Hukuki Mütalaa / Danışmanlık Niteliği Taşımama Uyarısı</span>
-            </div>
-            <p className="mt-2 leading-relaxed">
-              Bu bölümde paylaşılan makale ve yazılar genel nitelikte bilgilendirme amaçlıdır. Her somut hukuki olay kendi delilleri, tarafları ve süresi bakımından farklılık göstereceğinden, bu yazılar hukuki danışmanlık veya mütalaa yerine ikame edilemez.
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((art, idx) => (
-              <FadeIn key={art.slug} delay={idx * 0.1}>
-                <Link
-                  href={`/hukuki-bilgiler/${art.slug}`}
-                  className="group flex h-full flex-col justify-between rounded-2xl border border-card-border bg-card p-8 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-xs text-fg-muted">
-                      <span className="font-medium text-accent">{art.category}</span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {art.readTime}
-                      </span>
-                    </div>
-
-                    <h2 className="mt-5 font-serif text-2xl font-normal text-fg transition-colors group-hover:text-accent">
-                      {art.title}
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-relaxed text-fg-muted">
-                      {art.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="mt-8 flex items-center justify-between border-t border-line pt-4 text-xs">
-                    <span className="text-fg-muted">{art.date}</span>
-                    <span className="inline-flex items-center gap-1 font-semibold text-accent group-hover:translate-x-1 transition-transform">
-                      Yazıyı Oku &rarr;
-                    </span>
-                  </div>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
+      <section className="px-5 py-24 sm:px-8 lg:py-32">
+        <div className="mx-auto max-w-5xl">
+          {articles.map((a, i) => (
+            <Reveal key={a.slug} delay={i * 0.05}>
+              <Link
+                href={`/hukuki-bilgiler/${a.slug}`}
+                className="group grid gap-4 border-t border-line py-12 last:border-b md:grid-cols-12"
+              >
+                <div className="text-[11px] uppercase tracking-[0.22em] text-sub md:col-span-3">
+                  <p className="text-champagne">{a.category}</p>
+                  <p className="mt-2">{fmt(a.date)}</p>
+                  <p className="mt-1">{a.minutes} dk okuma</p>
+                </div>
+                <div className="md:col-span-9">
+                  <h2 className="font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.1] transition-colors duration-500 group-hover:text-champagne">
+                    {a.title}
+                  </h2>
+                  <p className="mt-4 max-w-2xl text-sub">{a.excerpt}</p>
+                  <span className="mt-6 block h-px w-12 bg-champagne transition-all duration-700 group-hover:w-40" />
+                </div>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </section>
     </main>

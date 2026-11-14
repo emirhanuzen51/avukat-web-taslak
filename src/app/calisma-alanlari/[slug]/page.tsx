@@ -1,149 +1,91 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, CheckCircle, ChevronRight, FileText, Phone, Shield } from "lucide-react";
+import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { areas, findArea } from "@/lib/areas";
-import { fullName, lawyer } from "@/lib/lawyer";
-import { PageHero, SectionBadge } from "@/components/motion";
+import { Kicker, PageHero, Reveal } from "@/components/motion";
+import { LegalIcon } from "@/components/icons";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return areas.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const area = findArea(slug);
-  if (!area) return { title: "Bulunamadı" };
-  return {
-    title: `${area.title} | Av. ${fullName}`,
-    description: area.lead,
-  };
+  const a = findArea((await params).slug);
+  return a ? { title: a.title, description: a.lead } : {};
 }
 
-export default async function PracticeAreaDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const area = findArea(slug);
+const steps = [
+  { t: "Ön görüşme", d: "Meselenin ana hatları ve ihtiyaç duyulan bilgi ve belgeler belirlenir." },
+  { t: "İnceleme", d: "Belgeler, ilgili mevzuat ve içtihatlar çerçevesinde değerlendirilir." },
+  { t: "Bilgilendirme", d: "Hukuki seçenekler ve olası sonuçları açık bir dille paylaşılır." },
+  { t: "Süreç takibi", d: "Başvuru, dava veya sözleşme süreçleri düzenli olarak takip edilir." },
+];
 
-  if (!area) {
-    notFound();
-  }
+export default async function Page({ params }: Props) {
+  const a = findArea((await params).slug);
+  if (!a) notFound();
+  const i = areas.indexOf(a);
+  const next = areas[(i + 1) % areas.length];
 
   return (
     <main>
       <PageHero
-        badge={area.category}
-        title={area.title}
-        description={area.lead}
-        image={area.image}
+        n={`0${i + 1}`}
+        kicker="Çalışma alanı"
+        title={a.title.split(" ")[0]}
+        italic={a.title.split(" ").slice(1).join(" ")}
+        text={a.lead}
+        image={a.image}
       />
-
-      <section className="py-24 sm:py-32 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mb-10">
-            <Link
-              href="/calisma-alanlari"
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-fg-muted hover:text-accent transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Tüm Alanlara Dön</span>
-            </Link>
+      <section className="px-5 py-24 sm:px-8 lg:py-32">
+        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <span className="text-champagne">
+                <LegalIcon name={a.icon} draw className="h-24 w-24" />
+              </span>
+              <Link href="/calisma-alanlari" className="gold-link mt-10 inline-flex items-center gap-2 pb-1 text-sm text-sub">
+                <ArrowLeft className="h-4 w-4" strokeWidth={1.5} /> Tüm alanlar
+              </Link>
+            </Reveal>
           </div>
+          <div className="lg:col-span-8">
+            <Kicker n="01">Başlıca konular</Kicker>
+            <ul className="border-t border-line">
+              {a.topics.map((t, k) => (
+                <Reveal key={t} delay={k * 0.06}>
+                  <li className="flex items-baseline gap-6 border-b border-line py-6">
+                    <span className="font-serif text-sm italic text-champagne">{String(k + 1).padStart(2, "0")}</span>
+                    <span className="font-serif text-2xl">{t}</span>
+                  </li>
+                </Reveal>
+              ))}
+            </ul>
 
-          <div className="grid gap-14 lg:grid-cols-12">
-            {/* Sol: Detaylı Açıklama & Süreç */}
-            <div className="lg:col-span-8 space-y-12">
-              <div>
-                <SectionBadge number="01">Kapsam ve Yaklaşım</SectionBadge>
-                <h2 className="mt-4 font-serif text-3xl font-normal text-fg">
-                  Hukuki Mahiyet ve Temsil Esasları
-                </h2>
-                <p className="mt-6 text-base leading-relaxed text-fg-muted sm:text-lg">
-                  {area.description}
-                </p>
-              </div>
-
-              {/* Uyuşmazlık Konuları */}
-              <div className="rounded-2xl border border-card-border bg-card p-8">
-                <h3 className="font-serif text-xl font-medium text-fg flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-accent" />
-                  <span>Takip Edilen Başlıca Dava ve İşlemler</span>
-                </h3>
-                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {area.topics.map((t) => (
-                    <li key={t} className="flex items-start gap-3 text-sm text-fg-muted">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                      <span>{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* İşlem ve Takip Akışı */}
-              <div>
-                <SectionBadge number="02">Süreç Akışı</SectionBadge>
-                <h3 className="mt-4 font-serif text-2xl font-normal text-fg">
-                  Tipik Dosya ve Başvuru Aşamaları
-                </h3>
-                <div className="mt-6 space-y-4">
-                  {area.processSummary.map((step, idx) => (
-                    <div
-                      key={step}
-                      className="flex items-start gap-4 rounded-xl border border-card-border bg-card/60 p-5"
-                    >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-subtle font-mono text-xs font-bold text-accent">
-                        {idx + 1}
-                      </span>
-                      <p className="text-sm leading-relaxed text-fg">{step}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="mt-20">
+              <Kicker n="02">Çalışma süreci</Kicker>
+              <div className="grid gap-px bg-line sm:grid-cols-2">
+                {steps.map((s, k) => (
+                  <div key={s.t} className="bg-bg p-6">
+                    <span className="font-serif text-xs italic text-champagne">Adım 0{k + 1}</span>
+                    <h3 className="mt-2 font-serif text-xl">{s.t}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-sub">{s.d}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Sağ: İlgili Mevzuat & Hızlı İletişim Kartı */}
-            <div className="lg:col-span-4 space-y-8">
-              {/* Mevzuat Kartı */}
-              <div className="rounded-2xl border border-card-border bg-card p-6 shadow-xs">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent">
-                  <BookOpen className="h-4 w-4" />
-                  <span>Temel Yasal Dayanaklar</span>
-                </div>
-                <ul className="mt-4 space-y-2.5 text-xs text-fg-muted">
-                  {area.legislation.map((leg) => (
-                    <li key={leg} className="rounded-lg bg-bg-alt/70 px-3 py-2 text-fg">
-                      {leg}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Randevu & İletişim Kartı */}
-              <div className="rounded-2xl border border-accent/30 bg-accent-subtle/30 p-7 text-center">
-                <Shield className="mx-auto h-8 w-8 text-accent" />
-                <h4 className="mt-4 font-serif text-xl font-medium text-fg">
-                  Görüşme ve Ön İnceleme
-                </h4>
-                <p className="mt-2 text-xs leading-relaxed text-fg-muted">
-                  {area.title} kapsamındaki dosyanız için büromuzdan ön görüşme randevusu alabilirsiniz.
-                </p>
-                <a
-                  href={lawyer.phoneHref}
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-bronze-light transition-all"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>{lawyer.phoneDisplay}</span>
-                </a>
-                <Link
-                  href="/iletisim"
-                  className="mt-3 block text-xs font-medium text-accent hover:underline"
-                >
-                  Yol Tarifi ve İletişim &rarr;
-                </Link>
-              </div>
+            <div className="mt-16 flex items-center justify-between border-t border-line pt-10">
+              <Link href="/iletisim" className="gold-link inline-flex items-center gap-2 text-sm text-fg">
+                Bu konuda görüşme talep edin <ArrowUpRight className="h-4 w-4 text-champagne" strokeWidth={1.5} />
+              </Link>
+              <Link href={`/calisma-alanlari/${next.slug}`} className="text-right text-xs text-sub hover:text-fg">
+                <span className="block text-[10px] uppercase tracking-widest text-champagne">Sonraki alan</span>
+                {next.title} &rarr;
+              </Link>
             </div>
           </div>
         </div>

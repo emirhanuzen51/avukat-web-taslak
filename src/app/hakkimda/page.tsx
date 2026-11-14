@@ -1,211 +1,112 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Scale, ShieldCheck } from "lucide-react";
 import { fullName, lawyer } from "@/lib/lawyer";
-import { FadeIn, PageHero, SectionBadge } from "@/components/motion";
-import { VCardButton } from "@/components/chrome";
+import { Kicker, Lines, PageHero, Reveal } from "@/components/motion";
+import { Monogram } from "@/components/icons";
+import { Signature, VCardButton } from "@/components/chrome";
 
 export const metadata: Metadata = {
   title: "Hakkımda",
-  description: `Av. ${fullName} — mesleki özgeçmiş, baro kaydı, eğitim bilgileri ve çalışma prensipleri.`,
+  description: `Av. ${fullName} — eğitim, baro ve mesleki bilgiler.`,
 };
 
-export default function AboutPage() {
-  const milestones = [
-    {
-      year: lawyer.graduationYear,
-      title: "Hukuk Fakültesi Mezuniyeti",
-      detail: lawyer.university,
-      icon: GraduationCap,
-    },
-    {
-      year: lawyer.startYear,
-      title: "Avukatlık Ruhsatı ve Baro Kaydı",
-      detail: `${lawyer.bar} · Sicil No: ${lawyer.barNo}`,
-      icon: Scale,
-    },
-    {
-      year: "Günümüz",
-      title: "Bağımsız Hukuki Danışmanlık ve Avukatlık",
-      detail: `${lawyer.city} merkezli dosya takibi, dava ve önleyici danışmanlık`,
-      icon: ShieldCheck,
-    },
-    {
-      year: "Akademik",
-      title: "Mesleki Eğitim ve İhtisas Çalışmaları",
-      detail: lawyer.academic,
-      icon: BookOpen,
-    },
+export default function Page() {
+  const timeline = [
+    { y: lawyer.graduationYear, t: "Lisans", d: lawyer.university },
+    { y: lawyer.startYear, t: "Avukatlık ruhsatı", d: `${lawyer.bar} · Sicil No: ${lawyer.barNo}` },
+    { y: "—", t: "Akademik çalışmalar", d: lawyer.academic },
   ];
-
-  const coreValues = [
-    {
-      title: "Mesleki Sır ve Gizlilik",
-      desc: "Avukatlık Kanunu m.36 gereğince müvekkillerimizle paylaşılan her bilgi ve belge kesin bir sır saklama yükümlülüğü altındadır.",
-    },
-    {
-      title: "Tam Bağımsızlık ve Tarafsızlık",
-      desc: "Yargının kurucu unsurlarından olan bağımsız savunmayı, her türlü dış etkiden uzak, yalnızca hukuk ve vicdan temelinde temsil ederiz.",
-    },
-    {
-      title: "Önleyici Hukuk Anlayışı",
-      desc: "Uyuşmazlıklar ortaya çıkmadan önce sözleşmelerin ve risklerin analiz edilmesi, ileride doğabilecek telafisi güç zararları önler.",
-    },
-    {
-      title: "Düzenli ve Şeffaf Raporlama",
-      desc: "Müvekkillerimiz, dosyadaki her duruşma, ara karar ve resmi tebligat hakkında zamanında ve anlaşılır bir dille bilgilendirilir.",
-    },
-  ];
-
   return (
     <main>
       <PageHero
-        badge="Özgeçmiş & İlkeler"
-        title="Av. "
-        highlight={fullName}
-        description={`${lawyer.bar} bünyesinde, bağımsız ve etik değerlere bağlı avukatlık pratiği.`}
+        n="I"
+        kicker="Hakkımda"
+        title={`Av. ${fullName}`}
+        italic={lawyer.bar}
+        text={`${lawyer.city}'de bağımsız olarak avukatlık faaliyetini sürdürmektedir.`}
         image="/images/library-ladder.jpg"
       />
 
-      {/* 1. Biyografi & Portre Bölümü */}
-      <section className="py-24 sm:py-32 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-14 lg:grid-cols-12 lg:items-center">
-            {/* Portre Görseli */}
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <div className="relative mx-auto max-w-md overflow-hidden rounded-3xl border border-card-border bg-card shadow-2xl">
-                  <div className="relative aspect-[3/4]">
-                    <Image
-                      src="/images/portrait.jpg"
-                      alt={`Av. ${fullName}`}
-                      fill
-                      sizes="(min-width: 1024px) 40vw, 90vw"
-                      className="object-cover object-top"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/85 via-transparent to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-8 text-white">
-                      <p className="font-serif text-2xl font-normal">Av. {fullName}</p>
-                      <p className="text-xs uppercase tracking-widest text-accent mt-1">
-                        {lawyer.tagline}
-                      </p>
-                    </div>
+      <section className="px-5 py-28 sm:px-8 lg:py-36">
+        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <Reveal>
+              <div className="relative">
+                <div className="absolute -inset-3 rounded-t-full border border-champagne/50" aria-hidden="true" />
+                <div className="relative aspect-[3/4] overflow-hidden rounded-t-full bg-bg-2">
+                  <Image
+                    src="/images/portrait.jpg"
+                    alt={`Av. ${fullName}`}
+                    fill
+                    sizes="(min-width:1024px) 40vw, 100vw"
+                    className="object-cover object-top"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 via-transparent to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-ivory">
+                    <p className="font-serif text-2xl">Av. {fullName}</p>
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.3em] text-champagne">{lawyer.tagline}</p>
                   </div>
                 </div>
-              </FadeIn>
-            </div>
-
-            {/* Biyografi Metni */}
-            <div className="lg:col-span-7">
-              <SectionBadge number="01">Mesleki Profil</SectionBadge>
-              <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
-                Hukuki Çözümde <span className="italic text-accent">Disiplin ve Özen</span>
-              </h2>
-
-              <div className="prose-executive mt-6 space-y-4">
+              </div>
+            </Reveal>
+          </div>
+          <div className="lg:col-span-7">
+            <Kicker n="01">Özgeçmiş</Kicker>
+            <Lines
+              className="font-serif text-[clamp(2rem,4vw,3.4rem)] font-light leading-[1.1]"
+              lines={[<>Hukuki meselelere</>, <><em className="text-champagne">açık iletişim</em> ve özenle</>, <>yaklaşan bir pratik.</>]}
+            />
+            <Reveal delay={0.15}>
+              <div className="prose-legal mt-6 max-w-2xl">
                 <p>
-                  Av. {fullName}, {lawyer.university}&apos;nden mezun olmuş; avukatlık stajını başarıyla tamamlayarak {lawyer.bar}&apos;na kaydolmuştur. Mesleki faaliyetini {lawyer.city}&apos;de bağımsız olarak sürdürmektedir.
+                  Av. {fullName}, {lawyer.university}&apos;nden mezun olmuş; avukatlık stajını tamamlayarak {lawyer.bar}&apos;na kaydolmuştur. Mesleki faaliyetini {lawyer.city}&apos;de bağımsız olarak sürdürmektedir.
                 </p>
                 <p>
                   Çalışmalarında; müvekkilin bilgilendirilmesini, dosyanın tüm yönleriyle incelenmesini ve süreçlerin düzenli takibini esas alır. Her dosyanın kendine özgü koşulları olduğu bilinciyle, hukuki seçenekleri olası sonuçlarıyla birlikte açık bir dille paylaşır.
                 </p>
-                <p>
-                  Mesleki faaliyetlerini Avukatlık Kanunu ve Türkiye Barolar Birliği Meslek Kuralları çerçevesinde icra eder.
-                </p>
+                <p>Mesleki faaliyetlerini Avukatlık Kanunu ve meslek kuralları çerçevesinde yürütür.</p>
               </div>
+            </Reveal>
+            <div className="mt-10 flex flex-wrap items-center gap-8">
+              <Signature className="h-16 w-56" />
+              <VCardButton />
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-line pt-8">
-                <VCardButton />
-                <Link
-                  href="/iletisim"
-                  className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent hover:underline"
-                >
-                  <span>Görüşme Randevusu Al</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+      <section className="bg-bg-2 px-5 py-28 sm:px-8 lg:py-36">
+        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Kicker n="02">Mesleki bilgiler</Kicker>
+            <Monogram className="mt-4 h-24 w-24 text-fg" />
+          </div>
+          <div className="lg:col-span-8">
+            <ol className="border-t border-line">
+              {timeline.map((t, i) => (
+                <Reveal key={t.t} delay={i * 0.08}>
+                  <li className="grid grid-cols-[90px_1fr] gap-6 border-b border-line py-8 sm:grid-cols-[140px_1fr]">
+                    <span className="font-serif text-3xl italic text-champagne">{t.y}</span>
+                    <span>
+                      <span className="block font-serif text-2xl">{t.t}</span>
+                      <span className="mt-1 block text-sub">{t.d}</span>
+                    </span>
+                  </li>
+                </Reveal>
+              ))}
+            </ol>
+            <Reveal delay={0.2}>
+              <div className="mt-12 grid gap-px bg-line sm:grid-cols-2">
+                <div className="bg-bg-2 p-6">
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-sub">Yabancı diller</p>
+                  <p className="mt-2 font-serif text-2xl">{lawyer.languages.join(" · ")}</p>
+                </div>
+                <div className="bg-bg-2 p-6">
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-sub">Kayıtlı olduğu baro</p>
+                  <p className="mt-2 font-serif text-2xl">{lawyer.bar}</p>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Zaman Çizelgesi (Kariyer & Eğitim) */}
-      <section className="border-y border-card-border bg-bg-alt/50 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl">
-            <SectionBadge number="02">Eğitim & Sicil</SectionBadge>
-            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
-              Mesleki <span className="italic text-accent">Gelişim Çizelgesi</span>
-            </h2>
-          </div>
-
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {milestones.map((m, idx) => (
-              <FadeIn key={m.title} delay={idx * 0.1}>
-                <div className="flex h-full flex-col justify-between rounded-2xl border border-card-border bg-card p-7 shadow-xs">
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-sm font-semibold text-accent">
-                        {m.year}
-                      </span>
-                      <m.icon className="h-5 w-5 text-accent" />
-                    </div>
-                    <h3 className="mt-4 font-serif text-lg font-medium text-fg">
-                      {m.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-fg-muted">
-                      {m.detail}
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Mimari Görsel Bandı */}
-      <section className="py-20 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-6 sm:grid-cols-3">
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
-              <Image src="/images/stairs.jpg" alt="" fill className="object-cover" />
-            </div>
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
-              <Image src="/images/library.jpg" alt="" fill className="object-cover" />
-            </div>
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-card-border">
-              <Image src="/images/columns-shadow.jpg" alt="" fill className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Temel Değerler ve Meslek İlkeleri */}
-      <section className="border-t border-card-border py-24 sm:py-32 bg-bg-alt/30">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl">
-            <SectionBadge number="03">Mesleki Ahlak</SectionBadge>
-            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
-              Taviz Verilmeyen <span className="italic text-accent">Temel İlkeler</span>
-            </h2>
-          </div>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2">
-            {coreValues.map((val, idx) => (
-              <FadeIn key={val.title} delay={idx * 0.1}>
-                <div className="rounded-2xl border border-card-border bg-card p-8 shadow-xs">
-                  <h3 className="font-serif text-xl font-medium text-fg">
-                    {val.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-fg-muted">
-                    {val.desc}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
+            </Reveal>
           </div>
         </div>
       </section>

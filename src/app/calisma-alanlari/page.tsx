@@ -1,88 +1,64 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle2, Shield } from "lucide-react";
-import { fullName } from "@/lib/lawyer";
+import { ArrowUpRight } from "lucide-react";
 import { areas } from "@/lib/areas";
-import { FadeIn, PageHero, SectionBadge } from "@/components/motion";
+import { PageHero, Reveal } from "@/components/motion";
+import { LegalIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Çalışma Alanları",
-  description: `Av. ${fullName} — Ceza Hukuku, Gayrimenkul Hukuku, İş Hukuku, Ticaret Hukuku ve diğer mesleki faaliyet alanları.`,
+  description: "Ceza, gayrimenkul, iş, ticaret, aile ve idare hukuku alanlarında bilgilendirme.",
 };
 
-export default function PracticeAreasPage() {
+export default function Page() {
   return (
     <main>
       <PageHero
-        badge="Faaliyet Konuları"
-        title="Hukuki "
-        highlight="Çalışma Alanları"
-        description="Müvekkillerimizin uyuşmazlık yaşadığı veya önleyici danışmanlık talep ettiği temel hukuki disiplinler."
-        image="/images/facade-sky.jpg"
+        n="II"
+        kicker="Çalışma alanları"
+        title="Hukuki çalışma"
+        italic="alanları"
+        text="Mesleki faaliyet gösterilen alanlar, bilgilendirme amacıyla aşağıda yer almaktadır."
+        image="/images/columns-shadow.jpg"
       />
-
-      <section className="py-24 sm:py-32 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          {/* TBB Bilgilendirme Notu */}
-          <div className="mb-14 rounded-2xl border border-card-border bg-card p-6 text-xs text-fg-muted">
-            <div className="flex items-center gap-3 font-semibold text-fg">
-              <Shield className="h-4 w-4 text-accent" />
-              <span>Yasal Bilgilendirme ve Meslek Kuralları (TBB m.7)</span>
-            </div>
-            <p className="mt-2 leading-relaxed">
-              Aşağıda yer alan çalışma alanları, Avukatlık Kanunu ve Reklam Yasağı Yönetmeliği kapsamında yalnızca kamuoyunu ve müvekkilleri büromuzun fiili iştigal konuları hakkında bilgilendirmek amacıyla listelenmiştir. Hiçbir surette uzmanlık, tekel veya üstünlük iddiası taşımamaktadır.
-            </p>
-          </div>
-
-          {/* Çalışma Alanları Grid */}
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {areas.map((area, idx) => (
-              <FadeIn key={area.slug} delay={idx * 0.08}>
-                <div className="flex h-full flex-col justify-between rounded-2xl border border-card-border bg-card p-8 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-lg">
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <span className="rounded-full bg-accent-subtle px-3 py-1 text-[11px] font-medium text-accent">
-                        {area.category}
-                      </span>
-                      <span className="font-mono text-xs text-fg-muted">0{idx + 1}</span>
-                    </div>
-
-                    <h2 className="mt-5 font-serif text-2xl font-normal text-fg">
-                      {area.title}
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-relaxed text-fg-muted">
-                      {area.lead}
-                    </p>
-
-                    <div className="mt-6 border-t border-line pt-4">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-fg mb-3">
-                        Başlıca Uyuşmazlık Konuları:
-                      </p>
-                      <ul className="space-y-2">
-                        {area.topics.map((t) => (
-                          <li key={t} className="flex items-start gap-2 text-xs text-fg/80">
-                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent mt-0.5" />
-                            <span>{t}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 border-t border-line pt-5">
-                    <Link
-                      href={`/calisma-alanlari/${area.slug}`}
-                      className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent transition-colors hover:text-fg"
-                    >
-                      <span>Ayrıntılı İnceleme ve Süreç</span>
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
+      <section className="px-5 py-24 sm:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          {areas.map((a, i) => (
+            <Reveal key={a.slug}>
+              <Link
+                href={`/calisma-alanlari/${a.slug}`}
+                className="group grid items-center gap-8 border-t border-line py-10 last:border-b md:grid-cols-12 lg:py-14"
+              >
+                <span className="font-serif text-lg italic text-sub md:col-span-1">0{i + 1}</span>
+                <span className="text-champagne md:col-span-1">
+                  <LegalIcon name={a.icon} draw className="h-12 w-12" />
+                </span>
+                <span className="md:col-span-6">
+                  <span className="block font-serif text-[clamp(2rem,3.6vw,3rem)] font-light leading-none transition-colors duration-500 group-hover:text-champagne">
+                    {a.title}
+                  </span>
+                  <span className="mt-3 block max-w-xl text-sub">{a.lead}</span>
+                </span>
+                <span className="relative hidden aspect-[16/10] overflow-hidden md:col-span-3 md:block">
+                  <Image
+                    src={a.image}
+                    alt=""
+                    fill
+                    sizes="25vw"
+                    className="object-cover grayscale transition duration-1000 group-hover:scale-105 group-hover:grayscale-0"
+                  />
+                </span>
+                <ArrowUpRight
+                  className="h-6 w-6 text-champagne transition-transform duration-500 group-hover:rotate-45 md:col-span-1 md:justify-self-end"
+                  strokeWidth={1.2}
+                />
+              </Link>
+            </Reveal>
+          ))}
+          <p className="mt-10 text-xs text-sub">
+            Alanlar bilgilendirme amacıyla listelenmiştir; herhangi bir uzmanlık veya üstünlük iddiası taşımaz.
+          </p>
         </div>
       </section>
     </main>

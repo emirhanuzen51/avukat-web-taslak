@@ -1,53 +1,38 @@
 import type { Metadata } from "next";
 import { fullName, lawyer } from "@/lib/lawyer";
-import { PageHero } from "@/components/motion";
 
-export const metadata: Metadata = {
-  title: "KVKK Aydınlatma Metni",
-  description: `Av. ${fullName} — 6698 Sayılı Kişisel Verilerin Korunması Kanunu Kapsamında Aydınlatma Metni.`,
-};
+export const metadata: Metadata = { title: "KVKK Aydınlatma Metni" };
 
-export default function KvkkPage() {
+// NOT: Taslak metindir; yayından önce avukat tarafından kontrol edilmelidir.
+export default function Page() {
   return (
-    <main>
-      <PageHero
-        badge="Yasal Bildirim"
-        title="KVKK "
-        highlight="Aydınlatma Metni"
-        description="6698 sayılı Kişisel Verilerin Korunması Kanunu gereğince veri sorumlusu sıfatıyla bilgilendirme."
-      />
-
-      <section className="py-20 sm:py-28 bg-bg">
-        <div className="mx-auto max-w-4xl px-5 sm:px-8">
-          <div className="prose-executive rounded-2xl border border-card-border bg-card p-8 sm:p-12 shadow-xs">
-            <p>
-              6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca, veri sorumlusu sıfatıyla Av. {fullName} tarafından kişisel verileriniz aşağıda belirtilen amaç ve hukuki sebepler doğrultusunda işlenmektedir.
-            </p>
-
-            <h2>1. İşlenen Kişisel Veriler</h2>
-            <p>
-              İletişim kanallarımız (telefon, e-posta, iletişim formu, KEP) aracılığıyla ilettiğiniz ad-soyad, telefon numarası, e-posta adresi ve uyuşmazlığa dair paylaştığınız ön bilgiler.
-            </p>
-
-            <h2>2. İşleme Amaçları ve Hukuki Sebepler</h2>
-            <ul>
-              <li>İletişim ve randevu taleplerinin değerlendirilmesi ve geri dönüş sağlanması,</li>
-              <li>Avukatlık Kanunu m.36 gereğince mesleki sır saklama yükümlülüğü çerçevesinde kayıt tutulması,</li>
-              <li>Hukuki ve yasal yükümlülüklerin yerine getirilmesi.</li>
-            </ul>
-
-            <h2>3. Verilerin Aktarımı ve Güvenliği</h2>
-            <p>
-              Kişisel verileriniz, kanuni zorunluluklar veya yargı mercilerinin resmi talepleri haricinde üçüncü şahıslarla, reklam veya pazarlama şirketleriyle kesinlikle paylaşılmaz. Verileriniz mesleki gizlilik ve teknik güvenlik tedbirleriyle muhafaza edilir.
-            </p>
-
-            <h2>4. İlgili Kişi Olarak Haklarınız</h2>
-            <p>
-              KVKK&apos;nın 11. maddesi uyarınca veri sahipleri; kişisel verilerinin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme ve silinmesini isteme hakkına sahiptir. Başvurularınızı {lawyer.address} adresine yazılı olarak veya {lawyer.kep} KEP adresine iletebilirsiniz.
-            </p>
-          </div>
-        </div>
-      </section>
+    <main className="px-5 pb-28 pt-44 sm:px-8">
+      <div className="prose-legal mx-auto max-w-3xl">
+        <p className="text-[11px] uppercase tracking-[0.3em] !text-champagne">Yasal bilgilendirme</p>
+        <h1 className="mt-4 font-serif text-5xl font-light">KVKK Aydınlatma Metni</h1>
+        <p>
+          6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında veri sorumlusu sıfatıyla Av. {fullName} tarafından
+          kişisel verileriniz aşağıda açıklanan çerçevede işlenmektedir.
+        </p>
+        <h2>İşlenen veriler</h2>
+        <p>
+          Telefon, e-posta veya KEP yoluyla iletişime geçtiğinizde paylaştığınız kimlik ve iletişim bilgileri ile
+          ilettiğiniz mesaj içeriği.
+        </p>
+        <h2>İşleme amaçları ve hukuki sebepler</h2>
+        <ul>
+          <li>İletişim talebinizin yanıtlanması ve görüşme planlanması (KVKK m.5/2-c)</li>
+          <li>Hukuki yükümlülüklerin yerine getirilmesi (KVKK m.5/2-ç)</li>
+          <li>Avukatlık mesleğine ilişkin sır saklama yükümlülüğü çerçevesinde dosya kayıtlarının tutulması</li>
+        </ul>
+        <h2>Aktarım</h2>
+        <p>Kişisel verileriniz, kanuni yükümlülükler dışında üçüncü kişilerle paylaşılmaz.</p>
+        <h2>Haklarınız</h2>
+        <p>
+          KVKK m.11 kapsamındaki taleplerinizi {lawyer.address} adresine yazılı olarak veya {lawyer.kep} KEP adresine
+          iletebilirsiniz.
+        </p>
+      </div>
     </main>
   );
 }

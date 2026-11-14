@@ -1,27 +1,23 @@
 import { Hero } from "@/components/hero";
 import {
-  ArchitecturalGallery,
-  BarAccreditationBar,
-  BentoPracticeAreas,
-  ContactCtaBanner,
-  InsightsSection,
-  LegalFaqAccordion,
-  ProcessTimeline,
-  SignatureQuote,
+  Approach,
+  ArchitectureBand,
+  AreasGrid,
+  ContactBand,
+  Identity,
+  InsightsPreview,
 } from "@/components/home";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <BarAccreditationBar />
-      <BentoPracticeAreas />
-      <ProcessTimeline />
-      <ArchitecturalGallery />
-      <SignatureQuote />
-      <LegalFaqAccordion />
-      <InsightsSection />
-      <ContactCtaBanner />
+      <Identity />
+      <AreasGrid />
+      <Approach />
+      <ArchitectureBand />
+      <InsightsPreview />
+      <ContactBand />
     </main>
   );
 }
