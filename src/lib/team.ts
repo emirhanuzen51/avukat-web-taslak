@@ -77,8 +77,8 @@ export const teamMembers: TeamMember[] = [
     email: "av.burakdemir@hukuk.av.tr",
   },
   {
-    id: "zeynep-aydin",
-    name: "Stj. Av. Zeynep Aydın",
+    id: "beyza-saydik",
+    name: "Stj. Av. Beyza Saydık",
     title: "Stajyer Avukat & Araştırmacı",
     role: "Stajyer Avukat",
     bar: "Kocaeli Barosu (Stajyer)",
@@ -91,8 +91,8 @@ export const teamMembers: TeamMember[] = [
       "UYAP Dava ve Duruşma Takibi",
       "Kalem ve Tevzi İşlemleri",
     ],
-    bio: "Kocaeli Üniversitesi Hukuk Fakültesi'ni üstün başarıyla tamamlamış olup, büromuzda dava dilekçelerinin emsal kararlar ışığında hazırlanması, hukuki literatür araştırması ve adliye kalem koordinasyonu süreçlerini yürütmektedir.",
-    email: "stj.zeynepaydin@hukuk.av.tr",
+    bio: "Kocaeli Üniversitesi Hukuk Fakültesi'ni başarıyla tamamlamış olup, büromuzda dava dilekçelerinin emsal kararlar ışığında hazırlanması, hukuki literatür araştırması ve adliye kalem koordinasyonu süreçlerini yürütmektedir.",
+    email: "stj.beyzasaydik@hukuk.av.tr",
   },
   {
     id: "gamze-celik",
