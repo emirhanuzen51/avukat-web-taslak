@@ -26,13 +26,13 @@ import { useModals } from "./modal-context";
 /* ---------------- Logo & Marka ---------------- */
 export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <div className="flex items-center gap-3.5 group">
-      <Monogram className="h-10 w-10 shrink-0 transition-transform duration-300 group-hover:scale-105" light={light} />
+    <div className="flex items-center gap-2.5 sm:gap-3.5 group">
+      <Monogram className="h-9 w-9 sm:h-10 sm:w-10 shrink-0 transition-transform duration-300 group-hover:scale-105" light={light} />
       <div className="leading-tight">
-        <span className={`block font-serif text-lg font-medium tracking-tight ${light ? "text-white" : "text-fg"}`}>
+        <span className={`block font-serif text-[15px] sm:text-lg font-medium tracking-tight ${light ? "text-white" : "text-fg"}`}>
           Av. {fullName}
         </span>
-        <span className="block text-[10px] uppercase font-semibold tracking-[0.2em] text-accent">
+        <span className="block text-[9px] sm:text-[10px] uppercase font-semibold tracking-[0.18em] text-accent">
           {lawyer.bar}
         </span>
       </div>
@@ -150,7 +150,7 @@ export function Header() {
             : "bg-transparent py-5"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-8">
           <Link href="/" aria-label="Ana sayfa">
             <Brand />
           </Link>
@@ -181,7 +181,7 @@ export function Header() {
           </nav>
 
           {/* Sağ Eylemler: Arama, Randevu, Telefon & Tema */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Hızlı Arama Butonu */}
             <button
               onClick={openCommandPalette}
@@ -321,8 +321,8 @@ export function Header() {
 /* ---------------- Alt Bilgi / Footer ---------------- */
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-card-border bg-obsidian text-slate-300 pt-20 pb-12">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <footer className="relative overflow-hidden border-t border-card-border bg-obsidian text-slate-300 pt-16 pb-28 sm:pt-20 sm:pb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-12 pb-16 border-b border-white/10">
           {/* Sol Kolon: Kurumsal Kimlik & Baro Bilgisi */}
           <div className="lg:col-span-5">

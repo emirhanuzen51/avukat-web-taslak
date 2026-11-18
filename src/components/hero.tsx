@@ -44,13 +44,13 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden border-b border-card-border bg-gradient-to-b from-bg-alt/80 via-bg to-bg pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28">
+    <section className="relative overflow-hidden border-b border-card-border bg-gradient-to-b from-bg-alt/80 via-bg to-bg pt-10 pb-14 sm:pt-20 sm:pb-20 lg:pt-28 lg:pb-28">
       {/* İnce zarif kurumsal arka plan dokusu */}
       <div className="pointer-events-none absolute -top-40 right-1/4 h-[550px] w-[550px] rounded-full bg-accent/8 blur-[140px]" />
       <div className="pointer-events-none absolute -bottom-20 left-10 h-[450px] w-[450px] rounded-full bg-accent/5 blur-[120px]" />
 
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           {/* Sol Kolon: Kurumsal Hukuk Bürosu Tanıtımı */}
           <div className="lg:col-span-7 xl:col-span-7">
             {/* Kurumsal Rozet */}
@@ -58,16 +58,16 @@ export function Hero() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: easeCustom }}
-              className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/90 px-4 py-1.5 shadow-xs backdrop-blur-md"
+              className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-card-border bg-card/90 px-3.5 py-1.5 shadow-xs backdrop-blur-md"
             >
-              <Scale className="h-4 w-4 text-accent" />
-              <span className="text-xs font-semibold tracking-wider text-fg">
+              <Scale className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-accent" />
+              <span className="text-[11px] sm:text-xs font-semibold tracking-wider text-fg">
                 {lawyer.bar}
               </span>
               <span className="text-xs text-fg-muted">·</span>
-              <span className="text-xs text-fg-muted">İzmit / Kocaeli</span>
+              <span className="text-[11px] sm:text-xs text-fg-muted">İzmit / Kocaeli</span>
               <span className="text-xs text-fg-muted">·</span>
-              <span className="text-xs text-fg-muted">Hukuk & Danışmanlık</span>
+              <span className="text-[11px] sm:text-xs text-fg-muted">Hukuk & Danışmanlık</span>
             </motion.div>
 
             {/* Büyük Tipografik Kurumsal Başlık */}
@@ -75,7 +75,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: easeCustom }}
-              className="mt-6 font-serif text-[clamp(2.4rem,4.6vw,4.4rem)] font-normal tracking-tight text-fg leading-[1.12]"
+              className="mt-5 font-serif text-[clamp(2.1rem,6vw,4.4rem)] font-normal tracking-tight text-fg leading-[1.14]"
             >
               Hukukun Üstünlüğü, <br />
               <span className="italic font-medium text-accent">Stratejik Temsil</span> ve <br />
@@ -87,7 +87,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: easeCustom }}
-              className="mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg"
+              className="mt-5 max-w-2xl text-sm sm:text-base leading-relaxed text-fg-muted sm:leading-relaxed"
             >
               Bireysel ve kurumsal müvekkillerimize Ceza Hukuku, Gayrimenkul & Kira, İş Hukuku, Ticaret ve Aile Hukuku alanlarında derinlemesine mevzuat analizi, şeffaf dava takibi ve sonuç odaklı hukuki danışmanlık hizmeti sunuyoruz.
             </motion.p>
@@ -98,14 +98,14 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25, ease: easeCustom }}
               onClick={openCommandPalette}
-              className="mt-6 flex max-w-xl cursor-pointer items-center justify-between rounded-2xl border border-card-border bg-card/85 p-3 pl-4 shadow-sm backdrop-blur-md transition-all hover:border-accent hover:shadow-md group"
+              className="mt-6 flex max-w-xl cursor-pointer items-center justify-between rounded-2xl border border-card-border bg-card/85 p-2.5 pl-3.5 sm:p-3 sm:pl-4 shadow-sm backdrop-blur-md transition-all hover:border-accent hover:shadow-md group"
             >
-              <div className="flex items-center gap-3 text-xs text-fg-muted">
-                <Search className="h-4 w-4 text-accent transition-transform group-hover:scale-110" />
-                <span>Ceza, kira tahliyesi, iş kazası tazminatı, harç hesabı ara...</span>
+              <div className="flex items-center gap-2.5 text-xs text-fg-muted truncate pr-2">
+                <Search className="h-4 w-4 text-accent shrink-0 transition-transform group-hover:scale-110" />
+                <span className="truncate">Ceza, kira tahliyesi, iş kazası, harç hesabı ara...</span>
               </div>
-              <span className="rounded-xl bg-accent-subtle px-2.5 py-1 text-[10px] font-mono font-semibold text-accent">
-                ⌘K / ARA
+              <span className="shrink-0 rounded-xl bg-accent-subtle px-2.5 py-1 text-[10px] font-mono font-semibold text-accent">
+                ARA
               </span>
             </motion.div>
 

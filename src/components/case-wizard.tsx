@@ -179,8 +179,8 @@ export function CaseAssessmentWizard() {
   };
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32 bg-bg-alt/40 border-y border-card-border">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32 bg-bg-alt/40 border-y border-card-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         {/* Başlık Alanı */}
         <div className="text-center max-w-2xl mx-auto">
           <SectionBadge number="02">İnteraktif Değerlendirme</SectionBadge>

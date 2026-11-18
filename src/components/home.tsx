@@ -40,15 +40,15 @@ export function BarAccreditationBar() {
   ];
 
   return (
-    <section className="border-b border-card-border bg-bg-alt/40 py-7">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+    <section className="border-b border-card-border bg-bg-alt/40 py-5 sm:py-7">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-4">
           {credentials.map((c) => (
-            <div key={c.label} className="border-l border-line pl-4">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-muted">
+            <div key={c.label} className="border-l border-line pl-3 sm:pl-4">
+              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] sm:tracking-[0.2em] text-fg-muted">
                 {c.label}
               </span>
-              <p className="mt-1 font-serif text-lg font-medium text-fg">{c.val}</p>
+              <p className="mt-1 font-serif text-base sm:text-lg font-medium text-fg">{c.val}</p>
             </div>
           ))}
         </div>
@@ -69,8 +69,8 @@ export function BentoPracticeAreas() {
       : areas.filter((a) => a.category === selectedCategory);
 
   return (
-    <section id="calisma-alanlari" className="scroll-mt-20 py-24 sm:py-32 bg-bg">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="calisma-alanlari" className="scroll-mt-20 py-16 sm:py-24 lg:py-32 bg-bg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <div>
             <SectionBadge number="01">Faaliyet Alanları</SectionBadge>
@@ -212,8 +212,8 @@ export function ProcessTimeline() {
   ];
 
   return (
-    <section className="border-y border-card-border bg-bg-alt/50 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="border-y border-card-border bg-bg-alt/50 py-16 sm:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="max-w-2xl">
           <SectionBadge number="02">Çalışma İlkeleri</SectionBadge>
           <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
@@ -224,14 +224,14 @@ export function ProcessTimeline() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-12 lg:items-center">
+        <div className="mt-10 sm:mt-14 grid gap-6 sm:gap-8 lg:grid-cols-12 lg:items-center">
           {/* Sol: Adım Seçici Butonlar */}
-          <div className="lg:col-span-5 space-y-3">
+          <div className="lg:col-span-5 space-y-2.5 sm:space-y-3">
             {steps.map((s, idx) => (
               <button
                 key={s.num}
                 onClick={() => setActiveStep(idx)}
-                className={`w-full text-left rounded-2xl p-5 border transition-all duration-300 ${
+                className={`w-full text-left rounded-2xl p-4 sm:p-5 border transition-all duration-300 ${
                   activeStep === idx
                     ? "border-accent bg-card shadow-lg"
                     : "border-card-border bg-card/60 hover:bg-card text-fg-muted"
@@ -246,22 +246,22 @@ export function ProcessTimeline() {
                     >
                       {s.num}
                     </span>
-                    <h4 className="font-serif text-lg font-medium text-fg">{s.title}</h4>
+                    <h4 className="font-serif text-base sm:text-lg font-medium text-fg">{s.title}</h4>
                   </div>
                   <s.icon
-                    className={`h-5 w-5 ${
+                    className={`h-4 w-4 sm:h-5 sm:w-5 ${
                       activeStep === idx ? "text-accent" : "text-fg-muted/40"
                     }`}
                   />
                 </div>
-                <p className="mt-2 text-xs text-fg-muted pl-10">{s.lead}</p>
+                <p className="mt-2 text-xs text-fg-muted pl-8 sm:pl-10">{s.lead}</p>
               </button>
             ))}
           </div>
 
           {/* Sağ: Aktif Adım Detay Paneli */}
           <div className="lg:col-span-7">
-            <div className="relative overflow-hidden rounded-3xl border border-card-border bg-card p-8 sm:p-12 shadow-xl">
+            <div className="relative overflow-hidden rounded-3xl border border-card-border bg-card p-6 sm:p-12 shadow-xl">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <Scale className="h-40 w-40 text-accent" />
               </div>
@@ -364,7 +364,7 @@ export function ArchitecturalGallery() {
 /* ================= 5. ANİMASYONLU İMZA VE MESLEK BEYANI ================= */
 export function SignatureQuote() {
   return (
-    <section className="relative overflow-hidden bg-obsidian py-24 sm:py-32 text-white">
+    <section className="relative overflow-hidden bg-obsidian py-16 sm:py-24 lg:py-32 text-white">
       <div className="pointer-events-none absolute inset-0 opacity-15">
         <Image
           src="/images/sketch.jpg"
@@ -375,14 +375,14 @@ export function SignatureQuote() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-8">
         <span className="mx-auto block h-12 w-px bg-accent" />
-        <h3 className="mt-8 font-serif text-2xl font-light italic sm:text-4xl text-slate-100 leading-snug">
+        <h3 className="mt-8 font-serif text-xl font-light italic sm:text-4xl text-slate-100 leading-snug">
           “Hukuki meseleler, yüzeysel yaklaşımlarla değil; her bir belgenin, her bir sürenin ve her bir içtihadın dikkatle tahlil edilmesiyle neticeye kavuşturulur.”
         </h3>
 
         {/* Vektörel İmza Çizimi */}
-        <div className="mx-auto mt-10 max-w-xs">
+        <div className="mx-auto mt-8 max-w-xs">
           <svg viewBox="0 0 300 80" fill="none" className="w-full" aria-label={`Av. ${fullName} İmza`}>
             <motion.path
               d="M20 50 C30 20 45 10 55 18 C65 26 40 60 35 65 C50 45 70 25 80 32 C90 40 75 58 85 58 C95 58 105 38 115 38 C125 38 118 55 128 55 C140 55 150 25 160 25 C170 25 165 52 175 52 C188 52 198 18 208 18 C220 18 210 50 225 50 C240 50 255 28 275 22"
@@ -441,8 +441,8 @@ export function LegalFaqAccordion() {
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-bg border-b border-card-border">
-      <div className="mx-auto max-w-4xl px-5 sm:px-8">
+    <section className="py-16 sm:py-24 lg:py-32 bg-bg border-b border-card-border">
+      <div className="mx-auto max-w-4xl px-4 sm:px-8">
         <div className="text-center">
           <SectionBadge number="04">Bilgilendirme</SectionBadge>
           <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
@@ -495,8 +495,8 @@ export function LegalFaqAccordion() {
 /* ================= 7. HUKUKİ BİLGİLER (MAKALELER) ================= */
 export function InsightsSection() {
   return (
-    <section className="py-24 sm:py-32 bg-bg">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="py-16 sm:py-24 lg:py-32 bg-bg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <div>
             <SectionBadge number="05">Güncel Hukuk</SectionBadge>
@@ -567,9 +567,9 @@ export function ContactCtaBanner() {
   };
 
   return (
-    <section className="relative overflow-hidden border-t border-card-border bg-bg-alt/70 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+    <section className="relative overflow-hidden border-t border-card-border bg-bg-alt/70 py-16 sm:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           {/* Sol Kolon: Doğrudan İletişim */}
           <div className="lg:col-span-5">
             <SectionBadge number="06">Randevu Talebi</SectionBadge>
@@ -622,7 +622,7 @@ export function ContactCtaBanner() {
 
           {/* Sağ Kolon: Hızlı Randevu / Ön Talep Kartı */}
           <div className="lg:col-span-7">
-            <div className="rounded-3xl border border-card-border bg-card p-8 sm:p-10 shadow-xl">
+            <div className="rounded-3xl border border-card-border bg-card p-6 sm:p-10 shadow-xl">
               <h3 className="font-serif text-2xl font-normal text-fg">
                 Ön Randevu ve Danışmanlık Talebi
               </h3>
@@ -722,8 +722,8 @@ export function ContactCtaBanner() {
 /* ================= 9. BİZİ TANIYIN (AVUKAT PROFİLİ & MESLEKİ GEÇMİŞ) ================= */
 export function AboutLawyerSection() {
   return (
-    <section className="border-t border-card-border bg-bg py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="border-t border-card-border bg-bg py-16 sm:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           {/* Sol Kolon: Kurumsal Portre Çerçevesi */}
           <div className="lg:col-span-5 flex justify-center">

@@ -60,6 +60,7 @@
 
 html {
   scroll-padding-top: 100px;
+  overflow-x: clip;
 }
 
 html.lenis, html.lenis body {

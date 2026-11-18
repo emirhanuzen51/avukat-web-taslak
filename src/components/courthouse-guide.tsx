@@ -60,8 +60,8 @@ export function CourthouseGuide() {
   const current = courthouses[activeTab];
 
   return (
-    <section className="py-24 sm:py-32 bg-bg-alt/30 border-b border-card-border">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="py-16 sm:py-24 lg:py-32 bg-bg-alt/30 border-b border-card-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <div>
             <SectionBadge number="04">Adli Lojistik</SectionBadge>

@@ -44,8 +44,8 @@ export function TeamSection() {
   });
 
   return (
-    <section id="kadromuz" className="scroll-mt-20 py-24 sm:py-32 bg-bg border-b border-card-border">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="kadromuz" className="scroll-mt-20 py-16 sm:py-24 lg:py-32 bg-bg border-b border-card-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         {/* Başlık ve Filtre */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <div>

@@ -41,8 +41,8 @@ export function FeeEstimator() {
   };
 
   return (
-    <section className="py-24 sm:py-32 bg-bg border-b border-card-border">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section className="py-16 sm:py-24 lg:py-32 bg-bg border-b border-card-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="text-center max-w-2xl mx-auto">
           <SectionBadge number="03">Şeffaf Bilgilendirme</SectionBadge>
           <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">

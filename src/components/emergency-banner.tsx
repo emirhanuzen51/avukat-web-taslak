@@ -41,8 +41,8 @@ export function EmergencyLegalBanner() {
   return (
     <>
       {/* İnce ve Dikkat Çekici Acil Durum Şeridi */}
-      <section className="border-b border-card-border bg-gradient-to-r from-red-950/20 via-card to-amber-950/20 py-4">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 sm:flex-row sm:px-8">
+      <section className="border-b border-card-border bg-gradient-to-r from-red-950/20 via-card to-amber-950/20 py-3 sm:py-4">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-8">
           <div className="flex items-center gap-3 text-center sm:text-left">
             <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-500/10 text-red-500 border border-red-500/20">
               <ShieldAlert className="h-4 w-4" />
@@ -57,7 +57,7 @@ export function EmergencyLegalBanner() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-2 shrink-0">
             <button
               onClick={() => setModalOpen(true)}
               className="rounded-full border border-card-border bg-card px-3.5 py-1.5 text-xs font-semibold text-fg hover:border-accent hover:text-accent transition-colors"
