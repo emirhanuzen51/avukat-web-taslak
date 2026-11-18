@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
+  Calendar,
   Clock,
   Download,
   Mail,
@@ -13,12 +14,14 @@ import {
   Menu,
   Moon,
   Phone,
+  Search,
   Shield,
   Sun,
   X,
 } from "lucide-react";
 import { fullName, lawyer, nav, slugName } from "@/lib/lawyer";
 import { Monogram } from "./icons";
+import { useModals } from "./modal-context";
 
 /* ---------------- Logo & Marka ---------------- */
 export function Brand({ light = false }: { light?: boolean }) {
@@ -124,6 +127,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { openAppointment, openCommandPalette } = useModals();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -176,11 +180,33 @@ export function Header() {
             })}
           </nav>
 
-          {/* Sağ Eylemler: Tema & Hızlı Arama Butonu */}
-          <div className="flex items-center gap-2.5">
+          {/* Sağ Eylemler: Arama, Randevu, Telefon & Tema */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Hızlı Arama Butonu */}
+            <button
+              onClick={openCommandPalette}
+              aria-label="Arama yap"
+              className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/70 px-3 py-1.5 text-xs text-fg-muted hover:border-accent hover:text-fg transition-all"
+            >
+              <Search className="h-3.5 w-3.5 text-accent" />
+              <span className="hidden sm:inline">Ara...</span>
+              <kbd className="hidden md:inline-flex rounded border border-card-border bg-bg-alt px-1.5 py-0.5 text-[9px] font-mono text-fg-muted">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* Randevu Butonu */}
+            <button
+              onClick={() => openAppointment()}
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-xs hover:bg-bronze-light transition-all"
+            >
+              <Calendar className="h-3.5 w-3.5" />
+              <span>Randevu Al</span>
+            </button>
+
             <a
               href={lawyer.phoneHref}
-              className="hidden items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-4 py-2 text-xs font-semibold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full border border-accent/40 bg-accent-subtle px-3.5 py-2 text-xs font-semibold tracking-wider text-accent transition-all duration-300 hover:bg-accent hover:text-white xl:inline-flex"
             >
               <Phone className="h-3.5 w-3.5" />
               <span>{lawyer.phoneDisplay}</span>
@@ -220,7 +246,24 @@ export function Header() {
               </button>
             </div>
 
-            <nav className="mt-8 flex flex-col gap-2">
+            {/* Mobil Arama Butonu */}
+            <div className="mt-5">
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  openCommandPalette();
+                }}
+                className="flex w-full items-center justify-between rounded-xl border border-card-border bg-card p-3 text-xs text-fg-muted"
+              >
+                <span className="flex items-center gap-2">
+                  <Search className="h-4 w-4 text-accent" />
+                  <span>Dava, makale veya konu arayın...</span>
+                </span>
+                <span className="font-mono text-[10px] text-accent font-semibold">ARA</span>
+              </button>
+            </div>
+
+            <nav className="mt-5 flex flex-col gap-2">
               <Link
                 href="/"
                 className={`rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
@@ -246,6 +289,17 @@ export function Header() {
             </nav>
 
             <div className="mt-auto border-t border-line pt-6">
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  openAppointment();
+                }}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md mb-4"
+              >
+                <Calendar className="h-4 w-4" />
+                <span>Hukuki Randevu Talep Et</span>
+              </button>
+
               <p className="text-xs uppercase tracking-[0.2em] text-fg-muted">Doğrudan İletişim</p>
               <a href={lawyer.phoneHref} className="mt-2 block font-serif text-xl font-medium text-fg">
                 {lawyer.phoneDisplay}
@@ -279,7 +333,7 @@ export function Footer() {
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-300">
                 <Shield className="h-3.5 w-3.5 text-accent" />
-                {lawyer.bar} · Sicil No: {lawyer.barNo}
+                {lawyer.bar}
               </span>
               <VCardButton variant="white" />
             </div>

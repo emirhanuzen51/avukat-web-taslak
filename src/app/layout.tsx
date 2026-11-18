@@ -5,6 +5,7 @@ import { fullName, lawyer } from "@/lib/lawyer";
 import { areas } from "@/lib/areas";
 import { Footer, Header } from "@/components/chrome";
 import { SmoothScroll } from "@/components/motion";
+import { ModalProvider } from "@/components/modal-context";
 
 const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
@@ -73,10 +74,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SmoothScroll />
-        <Header />
-        {children}
-        <Footer />
+        <ModalProvider>
+          <SmoothScroll />
+          <Header />
+          {children}
+          <Footer />
+        </ModalProvider>
       </body>
     </html>
   );

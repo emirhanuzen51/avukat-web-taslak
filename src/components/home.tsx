@@ -34,7 +34,7 @@ import { FadeIn, SectionBadge, SpotlightCard } from "./motion";
 export function BarAccreditationBar() {
   const credentials = [
     { label: "Kayıtlı Baro", val: lawyer.bar },
-    { label: "Baro Sicil No", val: lawyer.barNo },
+    { label: "Çalışma Esası", val: "Randevulu Danışmanlık" },
     { label: "Yetki Çevresi", val: `${lawyer.city} & Tüm Türkiye` },
     { label: "Meslek İlkesi", val: "TBB Reklam Yasağı m.7 Uyumlu" },
   ];
@@ -69,7 +69,7 @@ export function BentoPracticeAreas() {
       : areas.filter((a) => a.category === selectedCategory);
 
   return (
-    <section className="py-24 sm:py-32 bg-bg">
+    <section id="calisma-alanlari" className="scroll-mt-20 py-24 sm:py-32 bg-bg">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <div>
@@ -410,7 +410,7 @@ export function SignatureQuote() {
 
         <p className="mt-4 font-serif text-lg font-medium text-white">Av. {fullName}</p>
         <p className="text-xs uppercase tracking-[0.25em] text-accent mt-1">
-          {lawyer.bar} · Sicil No: {lawyer.barNo}
+          {lawyer.bar}
         </p>
       </div>
     </section>
@@ -711,6 +711,110 @@ export function ContactCtaBanner() {
                   </div>
                 </form>
               )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================= 9. BİZİ TANIYIN (AVUKAT PROFİLİ & MESLEKİ GEÇMİŞ) ================= */
+export function AboutLawyerSection() {
+  return (
+    <section className="border-t border-card-border bg-bg py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+          {/* Sol Kolon: Kurumsal Portre Çerçevesi */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative w-full max-w-md">
+              <div className="absolute -inset-2.5 rounded-3xl border border-accent/25 [mask-image:linear-gradient(to_bottom,black,transparent)] pointer-events-none" />
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-card-border bg-card shadow-xl">
+                <Image
+                  src="/images/portrait.jpg"
+                  alt={`Av. ${fullName} - ${lawyer.bar}`}
+                  fill
+                  sizes="(min-width: 1024px) 35vw, 90vw"
+                  className="object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/25 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <p className="text-xs uppercase tracking-wider text-accent font-semibold">
+                    {lawyer.bar}
+                  </p>
+                  <h3 className="mt-1 font-serif text-2xl font-normal text-white">
+                    Av. {fullName}
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    {lawyer.university}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sağ Kolon: Mesleki Geçmiş ve Anlayış */}
+          <div className="lg:col-span-7">
+            <SectionBadge number="04">Bizi Tanıyın</SectionBadge>
+            <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl lg:text-5xl text-fg">
+              Mesleki Kıdem, <br />
+              <span className="italic text-accent">Hukuki Ciddiyet ve Güven</span>
+            </h2>
+
+            <p className="mt-6 text-base leading-relaxed text-fg-muted sm:text-lg">
+              Av. {fullName}, {lawyer.university} mezuniyeti sonrasında {lawyer.startYear} yılından itibaren Kocaeli Barosu bünyesinde bağımsız avukatlık faaliyetlerini sürdürmektedir.
+            </p>
+
+            <p className="mt-4 text-sm leading-relaxed text-fg-muted">
+              Uyuşmazlıkların çözümünde; klasik hukuk prensiplerinin vakarı ile çağdaş hukuk tekniğini bir arada uygulayarak, her bir müvekkilin meselesini somut deliller, Yargıtay içtihatları ve güncel mevzuat hükümleri ışığında titizlikle analiz ediyoruz.
+            </p>
+
+            {/* Temel Yetkinlik Rozetleri */}
+            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-line/60 pt-6 sm:grid-cols-3">
+              <div className="rounded-xl border border-card-border bg-card p-4">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-fg-muted">
+                  Mezuniyet
+                </span>
+                <p className="mt-1 font-serif text-sm font-medium text-fg">
+                  Marmara Üniversitesi (2017)
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-card-border bg-card p-4">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-fg-muted">
+                  Kayıtlı Baro
+                </span>
+                <p className="mt-1 font-serif text-sm font-medium text-fg">
+                  {lawyer.bar}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-card-border bg-card p-4 col-span-2 sm:col-span-1">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-fg-muted">
+                  Yabancı Dil
+                </span>
+                <p className="mt-1 font-serif text-sm font-medium text-fg">
+                  Türkçe, İngilizce
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href="/hakkimda"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition-all hover:bg-bronze-light hover:shadow-lg"
+              >
+                <span>Detaylı Özgeçmiş & Hakkımda</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+
+              <Link
+                href="/iletisim"
+                className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card px-6 py-3 text-xs font-semibold uppercase tracking-wider text-fg transition-all hover:border-accent hover:text-accent"
+              >
+                <span>İletişim & Randevu</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>

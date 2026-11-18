@@ -22,7 +22,7 @@ export default function AboutPage() {
     {
       year: lawyer.startYear,
       title: "Avukatlık Ruhsatı ve Baro Kaydı",
-      detail: `${lawyer.bar} · Sicil No: ${lawyer.barNo}`,
+      detail: lawyer.bar,
       icon: Scale,
     },
     {
@@ -135,7 +135,7 @@ export default function AboutPage() {
       <section className="border-y border-card-border bg-bg-alt/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="max-w-2xl">
-            <SectionBadge number="02">Eğitim & Sicil</SectionBadge>
+            <SectionBadge number="02">Eğitim & Baro</SectionBadge>
             <h2 className="mt-4 font-serif text-3xl font-normal sm:text-4xl text-fg">
               Mesleki <span className="italic text-accent">Gelişim Çizelgesi</span>
             </h2>
