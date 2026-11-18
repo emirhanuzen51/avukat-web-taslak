@@ -10,7 +10,6 @@ import {
   SignatureQuote,
 } from "@/components/home";
 import { CaseAssessmentWizard } from "@/components/case-wizard";
-import { FeeEstimator } from "@/components/fee-calculator";
 import { CourthouseGuide } from "@/components/courthouse-guide";
 import { EmergencyLegalBanner } from "@/components/emergency-banner";
 import { TeamSection } from "@/components/team-section";
@@ -38,13 +37,10 @@ export default function Home() {
       {/* 6. Çalışma Metodolojisi ve Dava Süreci */}
       <ProcessTimeline />
 
-      {/* 7. Yargılama Harç ve Masraf Bilgilendirme Modülü */}
-      <FeeEstimator />
-
-      {/* 8. Meslek Beyanı ve Hukuki Titizlik İlkesi */}
+      {/* 7. Meslek Beyanı ve Hukuki Titizlik İlkesi */}
       <SignatureQuote />
 
-      {/* 9. Bölgesel Adliye, İcra ve Ulaşım Rehberi */}
+      {/* 8. Bölgesel Adliye, İcra ve Ulaşım Rehberi */}
       <CourthouseGuide />
 
       {/* 10. Sıkça Sorulan Hukuki Sorular */}

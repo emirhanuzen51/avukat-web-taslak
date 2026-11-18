@@ -102,7 +102,7 @@ export function Hero() {
             >
               <div className="flex items-center gap-2.5 text-xs text-fg-muted truncate pr-2">
                 <Search className="h-4 w-4 text-accent shrink-0 transition-transform group-hover:scale-110" />
-                <span className="truncate">Ceza, kira tahliyesi, iş kazası, harç hesabı ara...</span>
+                <span className="truncate">Ceza, kira tahliyesi, işe iade, boşanma ara...</span>
               </div>
               <span className="shrink-0 rounded-xl bg-accent-subtle px-2.5 py-1 text-[10px] font-mono font-semibold text-accent">
                 ARA
