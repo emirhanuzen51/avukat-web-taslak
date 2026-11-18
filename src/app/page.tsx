@@ -13,6 +13,7 @@ import { CaseAssessmentWizard } from "@/components/case-wizard";
 import { FeeEstimator } from "@/components/fee-calculator";
 import { CourthouseGuide } from "@/components/courthouse-guide";
 import { EmergencyLegalBanner } from "@/components/emergency-banner";
+import { TeamSection } from "@/components/team-section";
 
 export default function Home() {
   return (
@@ -52,10 +53,13 @@ export default function Home() {
       {/* 11. Bizi Tanıyın (Avukat Profili & Mesleki Geçmiş) */}
       <AboutLawyerSection />
 
-      {/* 12. Hukuki Bilgilendirme ve Makaleler */}
+      {/* 12. Büro Kadromuz ve Çalışma Alanları */}
+      <TeamSection />
+
+      {/* 13. Hukuki Bilgilendirme ve Makaleler */}
       <InsightsSection />
 
-      {/* 13. Doğrudan İletişim ve Randevu */}
+      {/* 14. Doğrudan İletişim ve Randevu */}
       <ContactCtaBanner />
     </main>
   );

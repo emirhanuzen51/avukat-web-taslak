@@ -16,11 +16,13 @@ import {
   Scale,
   Search,
   ShieldCheck,
+  Users,
   X,
 } from "lucide-react";
 import { fullName, lawyer, nav, slugName } from "@/lib/lawyer";
 import { areas } from "@/lib/areas";
 import { articles } from "@/lib/articles";
+import { teamMembers } from "@/lib/team";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -134,6 +136,7 @@ export function CommandPalette({
         actions: quickActions,
         practiceAreas: areas.slice(0, 4),
         articlesList: articles.slice(0, 3),
+        teamList: teamMembers.slice(0, 3),
       };
     }
 
@@ -157,10 +160,19 @@ export function CommandPalette({
         art.category.toLocaleLowerCase("tr-TR").includes(q)
     );
 
+    const filteredTeam = teamMembers.filter(
+      (m) =>
+        m.name.toLocaleLowerCase("tr-TR").includes(q) ||
+        m.title.toLocaleLowerCase("tr-TR").includes(q) ||
+        m.role.toLocaleLowerCase("tr-TR").includes(q) ||
+        m.areasOfFocus.some((a) => a.toLocaleLowerCase("tr-TR").includes(q))
+    );
+
     return {
       actions: filteredActions,
       practiceAreas: filteredAreas,
       articlesList: filteredArticles,
+      teamList: filteredTeam,
     };
   }, [query, onClose, onOpenAppointment]);
 
@@ -322,10 +334,52 @@ export function CommandPalette({
                 </div>
               )}
 
+              {/* Hukuk Kadrosu & Ekip */}
+              {filteredResults.teamList && filteredResults.teamList.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
+                    Hukuk Kadrosu & Çalışanlarımız ({filteredResults.teamList.length})
+                  </div>
+                  <div className="space-y-1">
+                    {filteredResults.teamList.map((member) => (
+                      <button
+                        key={member.id}
+                        onClick={() => {
+                          onClose();
+                          router.push("/ekibimiz");
+                        }}
+                        className="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-left transition-colors hover:bg-accent-subtle/50 group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-bg text-accent border border-card-border">
+                            <Users className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-fg group-hover:text-accent">
+                                {member.name}
+                              </span>
+                              <span className="rounded-md bg-accent-subtle px-1.5 py-0.5 text-[10px] text-accent font-semibold">
+                                {member.role}
+                              </span>
+                            </div>
+                            <p className="text-xs text-fg-muted line-clamp-1">
+                              {member.areasOfFocus.slice(0, 3).join(", ")}
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowRight className="h-4 w-4 text-fg-muted/40 transition-transform group-hover:translate-x-1 group-hover:text-accent" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Hiçbir Sonuç Bulunamadı */}
               {filteredResults.actions.length === 0 &&
                 filteredResults.practiceAreas.length === 0 &&
-                filteredResults.articlesList.length === 0 && (
+                filteredResults.articlesList.length === 0 &&
+                (!filteredResults.teamList || filteredResults.teamList.length === 0) && (
                   <div className="py-10 text-center">
                     <Scale className="mx-auto h-10 w-10 text-fg-muted/40" />
                     <p className="mt-3 text-sm font-medium text-fg">

@@ -42,6 +42,7 @@ export const slugName = fullName
 
 export const nav = [
   { href: "/hakkimda", label: "Hakkımda" },
+  { href: "/ekibimiz", label: "Kadromuz" },
   { href: "/calisma-alanlari", label: "Çalışma Alanları" },
   { href: "/hukuki-bilgiler", label: "Hukuki Bilgiler" },
   { href: "/iletisim", label: "İletişim" },
